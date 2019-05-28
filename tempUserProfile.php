@@ -18,22 +18,49 @@
       die("Connection failed: " . $conn->connect_error);
     }
     
+    //Getting Name 
     $getName = "select S.firstName, S.middleName, S.lastName from student S where S.studentID = '".$_SESSION['currentUserID']."'";
     $nameResult = mysqli_query($conn,$getName);
     while($rows9=mysqli_fetch_row($nameResult)){
       foreach ($rows9 as $key => $value){
-	 	    if($key == 0){
-			    $_SESSION['currentUserName'] = $value;
-	      }
-		    if($key == 1){
-			    $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
-		    }
-	      if($key == 2){                                	
-			    $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
-		    }
-	    }
+        if($key == 0){
+          $_SESSION['currentUserName'] = $value;
+        }
+        if($key == 1){
+          $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
+        }
+        if($key == 2){                                  
+          $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
+        }
+      }
     }
+
+  
+  $upMail=$firstName=$lastName=$middleName=$nationality=$gender=$birthPlace=$presStreetAddr=$presProvCity=$presRegion=$permProvCity=$permStreetAddr=$permRegion=$contactNo=$dept=$college=$birthDate= NULL;
+  //Get User Details
+  $sql = "SELECT * FROM student WHERE studentID = '".$_SESSION['currentUserID']."'";
+  $result = $conn->query($sql);
+  while($row = $result->fetch_assoc()) {
+    $upMail = $row["upMail"];
+    $firstName = $row["firstName"];
+    $lastName = $row["lastName"];
+    $middleName = $row["middleName"];
+    $nationality = $row["nationality"];
+    $gender = $row["gender"];
+    $birthDate = $row["birthDate"];
+    $birthPlace = $row["birthPlace"];
+    $presStreetAddr = $row["presStreetAddr"];
+    $presProvCity = $row["presProvCity"];
+    $presRegion = $row["presRegion"];
+    $permStreetAddr = $row["permStreetAddr"];
+    $permProvCity = $row["permProvCity"];
+    $permRegion = $row["permRegion"];
+    $contactNo = $row["contactNo"];
+    $dept = $row["dept"];
+    $college = $row["college"];
+  }
 ?>
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -60,11 +87,11 @@
 
       <!-- Header -->
         <header id = "header">
-          <h1 id = "logo"><a href = "tempUserHome.php"><span>UP</span>SMS</a></h1>
+          <h1 id = "logo"><a href = "tempUserHome.php">Scholarships <span>that matter</span></a></h1>
           <nav id = "nav">
             <ul>
               <li><a href = "tempUserHome.php">Home</a></li>
-              <li class = "current"><a href = "#">User Profile</a></li>
+              <li class = "current"><a href = "tempUserProfile.php">User Profile</a></li>
               <li><a href = "tempUserApply.php">Apply</a></li>
               <li><a href = "tempUserView.php">View Scholarship Status</a></li>
               <li><?php echo $_SESSION['currentUserName']. " (ID:" . $_SESSION['currentUserID'] . ")"?></li>
@@ -74,251 +101,332 @@
         </header>
 
 
-			<!-- Main -->
-				<article id="main">
+      <!-- Main -->
+        <article id="main">
 
-					<header class="special container">
-						<span class="icon fa-mobile"></span>
-					</header>
+          <header class="special container">
+            <span class="icon fa-mobile"></span>
+          </header>
 
-					<!-- One -->
-						<section class="wrapper style4 container">
+          <!-- One -->
+            <section class="wrapper style4 container">
 
-							<!-- Content -->
-								<div class="content">
-									<section>	
-										
-                  <header><h1><b>User Profile</b></h1></header>
+              <!-- Content -->
+                <div class="content">
+                  <section> 
+                    
+                  <header><h1><b style="margin: 10% 0% 0% 42%;">User Profile</b></h1></header>
+                            <!-- Compare user details --> 
+                        <div id="display">
+                          <form method="post" action="backend/userdata.php" class="form-horizontal" role="form">
+                            
+                            <?php if($upMail==NULL || $upMail==""){} else{ ?> 
+                              <div class="form-group">
+                                <label class="control-label col-sm-2" for="upMail">Email:</label>
+                                <div class="col-sm-10">
+                                  <input type="email" class="form-control" value="<?php echo $upMail;?>" disabled>
+                                </div>
+                              </div>
+                            <?php } ?>
+                           
+                            <?php if($lastName==NULL || $lastName==""){} else{ ?> 
+                              <div class="form-group">
+                                <label class="control-label col-sm-2" for="lastName">Last Name:</label>
+                                <div class="col-sm-10">
+                                  <input type="name" class="form-control" value="<?php echo $lastName;?>" disabled>
+                                </div>
+                              </div>
+                            <?php } ?>
+                           
+                            <?php if($firstName ==NULL || $firstName ==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="firstName">First Name:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $firstName?>" disabled>
+                              </div>
+                            </div>
+                            <?php } ?>
 
-                          
+                            <?php if($middleName ==NULL || $middleName==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="middleName">Middle Name:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $middleName?>" disabled>
+                              </div>
+                            </div>
+                            <?php } ?>
+
+                            <?php if($nationality==NULL || $nationality==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="nationality">Nationality:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $nationality?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>
+
+                            <?php if($gender==NULL || $gender==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="gender">Gender:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $gender?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>
+
+                            <?php if($birthDate==NULL || $birthDate=="0000-00-00"){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="birthDate">Birthdate:</label>
+                              <div class="col-sm-10"> 
+                                <input type="date" class="form-control" value="<?php echo $birthDate?>" disabled>
+                              </div>
+                            </div>
+                            <?php } ?>
+
+                            <?php if($birthPlace==NULL || $birthPlace==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="birthPlace">Birthplace:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $birthPlace?>" disabled>
+                              </div>
+                            </div>
+                            <?php } ?>
+
+                            <?php if($presStreetAddr==NULL || $presStreetAddr==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="presStreetAddr">Present Street Address:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $presStreetAddr?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>
+
+                            <?php if($presProvCity==NULL || $presProvCity==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="presProvCity">Present City:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $presProvCity?>" disabled>
+                              </div>
+                            </div>
+                            <?php } ?>
+
+                            <?php if($presRegion==NULL || $presRegion==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="presRegion">Present Region:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $presRegion?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>     
+
+                            <?php if($permStreetAddr==NULL || $permStreetAddr==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="permStreetAddr">Permanent Street Address:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $permStreetAddr?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>    
+
+                            <?php if($permProvCity==NULL || $permProvCity==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="permProvCity">Permanent City:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $permProvCity?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>
+
+                            <?php if($permRegion==NULL || $permRegion==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="permRegion">Permanent Region:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $permRegion?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>
+
+                            <?php if($contactNo==NULL || $contactNo=="0"){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="contactNo">Contact Number:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $contactNo?>" disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>
+
+                            <?php if($dept==NULL || $dept==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="dept">Department:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $dept?>"disabled>
+                              </div>
+                            </div> 
+                            <?php } ?>
+
+                            <?php if($college==NULL || $college==""){} else{ ?> 
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="college">College:</label>
+                              <div class="col-sm-10"> 
+                                <input type="name" class="form-control" value="<?php echo $college?>" disabled>
+                              </div>
+                            </div>  
+                            <?php } ?>
+                            
+                            <!--                                                                                                                  
+                            <div class="form-group"> 
+                              <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default" id="submit" style="display: none;">Submit</button>
+                              </div>
+                            </div>
+
+                          -->
+                          </form>
+                          <button id="showDivButton" style="margin:2% 0% 3% 42%;" type="button" class="btn btn-primary">Edit User Profile</button> 
+                      </div>
+
+                      <div id="editDiv" style="display:none">
                           <form method="POST" action="backend/userdata.php" class="form-horizontal" role="form">
+                            <div class="form-group">
+                              <label class="control-label col-sm-2" for="firstName">Email:</label>
+                              <div class="col-sm-10"> 
+                                <input type="email" class="form-control" value="<?php echo $upMail ?>" disabled>
+                              </div>
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="lastName">Last Name:</label>
                               <div class="col-sm-10">
-                                <input type="name" class="form-control" name="lastName" placeholder="Smith">
+                                <input type="name" class="form-control" name="lastName" value="<?php echo $lastName;?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="firstName">First Name:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="firstName" placeholder="John">
+                                <input type="name" class="form-control" name="firstName" value="<?php echo $firstName?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="middleName">Middle Name:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="middleName" placeholder="N">
+                                <input type="name" class="form-control" name="middleName" value="<?php echo $middleName?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="nationality">Nationality:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="nationality" placeholder="Filipino">
+                                <input type="name" class="form-control" name="nationality" value="<?php echo $nationality?>">
                               </div>
                             </div> 
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="gender">Gender:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="gender" placeholder="Male">
+                                <input type="name" class="form-control" name="gender" value="<?php echo $gender?>">
                               </div>
                             </div> 
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="birthDate">Birthdate:</label>
                               <div class="col-sm-10"> 
-                                <input type="date" class="form-control" name="birthDate">
+                                <input type="date" class="form-control" name="birthDate" value="<?php echo $birthDate?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="birthPlace">Birthplace:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="birthPlace" placeholder="Enter birthplace">
+                                <input type="name" class="form-control" name="birthPlace" value="<?php echo $birthPlace?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presStreetAddr">Present Street Address:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="presStreetAddr" placeholder="Enter present street address (e.g. 10 Panganiban St.)">
+                                <input type="name" class="form-control" name="presStreetAddr" value="<?php echo $presStreetAddr?>" >
                               </div>
                             </div> 
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presProvCity">Present City:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="presProvCity" placeholder="Enter present province/city (e.g. Quezon City)">
+                                <input type="name" class="form-control" name="presProvCity" value="<?php echo $presProvCity?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presRegion">Present Region:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="presRegion" placeholder="Enter present region (e.g. National Capital Region)">
+                                <input type="name" class="form-control" name="presRegion" value="<?php echo $presRegion?>">
                               </div>
                             </div>      
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permStreetAddr">Permanent Street Address:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="permStreetAddr" placeholder="Enter permanent street address">
+                                <input type="name" class="form-control" name="permStreetAddr" value="<?php echo $permStreetAddr?>">
                               </div>
                             </div>     
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permProvCity">Permanent City:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="permProvCity" placeholder="Enter permanent province/city">
+                                <input type="name" class="form-control" name="permProvCity" value="<?php echo $permProvCity?>">
                               </div>
                             </div> 
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permRegion">Permanent Region:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="permRegion" placeholder="Enter permanent region">
+                                <input type="name" class="form-control" name="permRegion" value="<?php echo $permRegion?>" >
                               </div>
                             </div> 
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="contactNo">Contact Number:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="contactNo" placeholder="9301234567">
+                                <input type="name" class="form-control" name="contactNo" value="<?php if($contactNo!='0') { echo $contactNo; } ?>">
                               </div>
                             </div> 
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="dept">Department:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="dept" placeholder="Department of Computer Science">
+                                <input type="name" class="form-control" name="dept" value="<?php echo $dept ?>">
                               </div>
                             </div> 
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="college">College:</label>
                               <div class="col-sm-10"> 
-                                <input type="name" class="form-control" name="college" placeholder="College of Engineering">
+                                <input type="name" class="form-control" name="college" value="<?php echo $college?>">
                               </div>
                             </div>  
                                                                                                                                               
                             <div class="form-group"> 
                               <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-default">Submit</button>
+                                <button type="submit" class="btn btn-default" style="margin:2% 0% 3% 42%;">Submit</button>
                               </div>
                             </div>
                           </form>
-                            <br><p>Mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
 
-                            <button id=showDivButton style="margin-bottom:15px" type="button" class="btn btn-primary">Edit User Profile</button>
+                      </div>
+                  </section>
+                </div>
 
-                            <div id="editDiv" style="display:none">
-                              <form class="form-inline" role="form">
-                                <div class="form-group">
-                                    <div class=row-bro>
-                                      <b>Full Name</b>
-                                      <input type="name" class="form-control" id="lastname" placeholder="lastname" disabled>
-                                      <input type="name" class="form-control" id="firstname" placeholder="firstname" disabled>
-                                      <input type="name" class="form-control" id="middlename" placeholder="middlename" disabled>
-                                      <b>Nationality</b> <input type="nationality" class="form-control" id="nationality" placeholder="Filipino" disabled>
-                                    </div>
+            </section>
 
-                                    <div class=row-bro>
-                                      <b>Gender</b> <input type="gender" class="form-control" id="gender" placeholder="Male" disabled>
-                                      <b>Date of Birth</b> <input type="birthdate" class="form-control" id="birthdate" placeholder="06/14/96" disabled>
-                                      <b>Place of Birth</b> <input type="birthplace" style="width: 305px" class="form-control" id="birthplace" placeholder="Quezon City, Philippines" disabled>
-                                    </div>
+          <!-- footer -->
+         
+        </article>
 
-                                    <div class=row-bro>
-                                      <b>Present Address</b> <input type="address" style="width: 830px" class="form-control" id="presentaddress" value="14A Maligaya st. Brgy. Pinyahan, Quezon City, Philippines, 1101">
-                                    </div>
+      <!-- Footer -->
+        <footer id="footer">
 
-                                    <div class=row-bro>
-                                      <b>Permanent Address</b> <input type="address" style="width: 810px" class="form-control" id="permanentaddress" placeholder="Number, Street, District, City, Country, Zip Code">
-                                    </div>
+          <ul class="icons">
+            <li><a href="#" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="#" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+            <li><a href="#" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
+            <li><a href="#" class="icon circle fa-github"><span class="label">Github</span></a></li>
+            <li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
+          </ul>
 
-                                    <div class=row-bro>
-                                      <b>Contact Number</b> <input type="number" class="form-control" id="contactnumber" placeholder="Phone/Cellphone">
-                                      <b>Email Address</b> <input type="email" class="form-control" id="emailaddress" placeholder="myname@domain.com">
-                                      <b>Degree Course</b> <input type="degree" style="width: 225px" class="form-control" id="degree" placeholder="BS Computer Science" disabled>
-                                    </div>
+          <ul class="copyright">
+            <li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+          </ul>
 
-                                    <div class=row-bro>
-                                      <b>Student Number</b> <input type="studentnumber" class="form-control" id="studentnumber" placeholder="201310940" disabled>
-                                      <b>Department</b> <input type="department" style="width: 295px" class="form-control" id="department" placeholder="Department of Computer Science" disabled>
-                                      <b>College</b> <input type="college" class="form-control" id="college" placeholder="College of Engineering" disabled>
-                                    </div>
+        </footer>
 
-                                    <button type="submit" style="margin-bottom:10px" class="btn btn-default">Submit</button>
-                                  </div>
-                              </form>
-                            </div>
+    </div>
 
-									</section>
-								</div>
-
-						</section>
-
-					<!-- Two -->
-						<section class="wrapper style1 container special">
-							<div class="row">
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>This is Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>Also Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>Probably Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-							</div>
-						</section>
-
-				</article>
-
-			<!-- Footer -->
-				<footer id="footer">
-
-					<ul class="icons">
-						<li><a href="#" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
-						<li><a href="#" class="icon circle fa-github"><span class="label">Github</span></a></li>
-						<li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
-					</ul>
-
-					<ul class="copyright">
-						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-
-				</footer>
-
-		</div>
-
-		<!-- Scripts -->
+    <!-- Scripts -->
       <script src="js/jquery.min.js"></script>
       <script src="js/jquery.dropotron.min.js"></script>
       <script src="js/jquery.scrolly.min.js"></script>
@@ -334,16 +442,18 @@
       var button = document.getElementById('showDivButton'); // Assumes element with id='button'
       button.onclick = function() {
           var div = document.getElementById('editDiv');
+          var disp = document.getElementById('display');
           if (div.style.display !== 'none') {
               div.style.display = 'none';
           }
           else {
               div.style.display = 'block';
+              disp.style.display = 'none';
           }
       };
     </script>
 
-	</body>
+  </body>
 </html>
 
 

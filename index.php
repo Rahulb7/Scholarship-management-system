@@ -23,20 +23,20 @@
 
     <!-- Custom CSS-->
     <link href="css/general.css" rel="stylesheet">
-  
+
     <!-- Owl-Carousel -->
     <link href="css/custom.css" rel="stylesheet">
     <link href="css/owl.carousel.css" rel="stylesheet">
     <link href="css/owl.theme.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
-  
+
     <!-- Magnific Popup core CSS file -->
-    <link rel="stylesheet" href="css/magnific-popup.css"> 
-  
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
     <script src="js/modernizr-2.8.3.min.js"></script>  <!-- Modernizr /-->
 
-      
+
 
   </head>
 
@@ -52,30 +52,30 @@
 
     <div class = "intro-header">
       <div class = "col-xs-12 text-center">
-        <h1 class = "h1_home wow fadeIn" data-wow-delay = "0.4s">UPSMS</h1>
+        <h1 class = "h1_home wow fadeIn" data-wow-delay = "0.4s">SMS</h1>
         <h3 class = "h3_home wow fadeIn" data-wow-delay = "0.6s">Scholarship Management System </h3>
-		<h3 class = "h3_home wow fadeIn" data-wow-delay = "0.6s">Log in to Title</h3>
-    
+		<h3 class = "h3_home wow fadeIn" data-wow-delay = "0.6s">Log in to your Scholarship Portal</h3>
+
         <div class="login">
           <form action="backend/login.php" method="POST" name="login">
-            <input type="text" name="email" class = "h3_home wow fadeIn" data-wow-delay = "0.8s" placeholder="Email Address" required autofocus>
+            <input type="email" name="email" class = "h3_home wow fadeIn" data-wow-delay = "0.8s" placeholder="Email Address" required autofocus>
             <input type="password" name="password" class = "h3_home wow fadeIn" data-wow-delay = "1.0s" placeholder="Password">
             <input type = "submit" value="Login" class = "btn btn-lg mybutton_standard wow swing wow fadeIn network-name text-center" data-wow-delay="1.2s">
             <h5 class = "h3_home wow fadeIn" data-wow-delay = "1.2s">Don't have an Account<a style="color:white" href="signup.php">&nbsp;&nbsp;<u>Click Here</u></a></h5>
             <h5 class = "h3_home wow fadeIn" data-wow-delay = "1.2s"><a style="color:white" href="forgotpassword.php"><u>Forgot Password</u></a></h5>
           </form>
-          <?php 
+          <?php
             if(!empty($_SESSION['errMsg'])){ ?>
               <div class = "wow fadeIn" data-wow-delay = "1.2s">
                 <div class="alert alert-danger wow swing text-center" data-wow-delay="1.2s" style="margin-top:20px;">
                   <center><strong>Invalid! </strong><?php echo $_SESSION['errMsg']; ?></center>
                 </div>
-              </div>          
+              </div>
           <?php unset($_SESSION['errMsg']); }?>
 
         </div>
      </div>
-    </div>    
+    </div>
 
 
     <!-- JavaScript -->
@@ -89,13 +89,13 @@
       jQuery(function($) {
       $(document).ready( function() {
         $('.navbar-default').stickUp();
-        
+
       });
       });
-    
+
     </script>
     <!-- Smoothscroll -->
-    <script type="text/javascript" src="js/jquery.corner.js"></script> 
+    <script type="text/javascript" src="js/jquery.corner.js"></script>
     <script src="js/wow.min.js"></script>
     <script>
      new WOW().init();
@@ -103,7 +103,7 @@
     <script src="js/classie.js"></script>
     <script src="js/uiMorphingButton_inflow.js"></script>
     <!-- Magnific Popup core JS file -->
-    <script src="js/jquery.magnific-popup.js"></script> 
+    <script src="js/jquery.magnific-popup.js"></script>
 
   </body>
 </html>

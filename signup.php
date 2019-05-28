@@ -40,7 +40,7 @@
   <body id = "home">
     <div class = "intro-header">
       <div class = "col-xs-12 text-center">
-        <h1 class = "h1_home wow fadeIn" data-wow-delay = "0.4s">UPSMS</h1>
+        <h1 class = "h1_home wow fadeIn" data-wow-delay = "0.4s">SMS</h1>
         <h3 class = "h3_home wow fadeIn" data-wow-delay = "0.6s">Scholarship Management System </h3>
         
         <div class="login">

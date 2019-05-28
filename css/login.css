@@ -1,0 +1,47 @@
+body {
+  padding-top: 80px;
+}
+
+.logo {
+  padding: 10px;
+  text-align: center;
+}
+
+.container-form {
+  background-color: #660000;
+}
+
+.container-form2 {
+  width: 350px;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.checkbox {
+  color: white;
+  text-align: left;
+}
+
+.loginbutton {
+  width: 100px;
+  margin-left: 210px; 
+}
+
+.form-control {
+  position: relative;
+  height: auto;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.btn-login {
+  background-color: #990000;
+  color: white;
+}
+
+.btn-login:hover {
+  background-color: #b22222;
+  color: white
+}

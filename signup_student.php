@@ -37,6 +37,7 @@
   <body id = "home">
 
     <?php
+    $email=NULL;
       $flag=1;
       try{
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -44,8 +45,11 @@
             
             $email = $_POST['email'];
             $pass = $_POST['password'];
-
-            $conn = new mysqli("localhost:3309","root", "","sms");
+            $cpass = $_POST['confirm_password'];
+            if(strcmp($pass, $cpass)!=0){
+              $flag=-1;
+            }
+            $conn = new mysqli("localhost","root", "","sms");
             
             if ($conn->connect_error) {
               die("Connection failed: " . $conn->connect_error);
@@ -63,6 +67,8 @@
             if($flag==0){
               $_SESSION['errMsg'] = "User Already Exists!";
               
+            }else if($flag==-1){
+               $_SESSION['errMsg'] = "Password and Confirm Password donot match";
             }
             else{
               //Convert password into hash
@@ -88,13 +94,14 @@
 
     <div class = "intro-header">
       <div class = "col-xs-12 text-center">
-        <h1 class = "h1_home wow fadeIn" data-wow-delay = "0.4s">UPSMS</h1>
+        <h1 class = "h1_home wow fadeIn" data-wow-delay = "0.4s">SMS</h1>
         <h3 class = "h3_home wow fadeIn" data-wow-delay = "0.6s">Scholarship Management System </h3>
+        <h3 class = "h3_home wow fadeIn" data-wow-delay = "0.6s">Student Signup</h3>
         <h3 class = "h3_home wow fadeIn" data-wow-delay = "0.6s">Create Your Account</h3>
 
         <div class="login">
           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" name="login" >
-            <input type="text" name="email" class = "h3_home wow fadeIn" data-wow-delay = "0.8s" placeholder="Enter Email Address" required autofocus>
+            <input type="email" name="email" class = "h3_home wow fadeIn" data-wow-delay = "0.8s" value="<?php echo $email ?>" placeholder="Enter Email Address" required autofocus>
 
             <input type="password" name="password" id="password" class = "h3_home wow fadeIn" data-wow-delay = "1.0s" placeholder="Enter Password" required>
             
@@ -136,14 +143,14 @@
       });
 
       //Checking Password and Confirm Password
-     /* function check_pass(){
+      function check_pass(){
         if(document.getElementById("password").value == document.getElementById("confirm_password").value){
           document.getElementById("submit").disabled=false;
         }
         else{
           document.getElementById("submit").disabled=true;
         }
-      }*/
+      }
     
     </script>
     <!-- Smoothscroll -->
