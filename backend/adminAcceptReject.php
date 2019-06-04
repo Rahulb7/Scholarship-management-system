@@ -7,10 +7,10 @@
 <?php
 	try{
 		/*Open a connection to mySQL*/
-		// Connect to database 
+		// Connect to database
     	$conn = new mysqli("localhost:3309","root","","sms");
-  
-		  // Checks Connection 
+
+		  // Checks Connection
 	    if ($conn->connect_error) {
 	      die("Connection failed: " . $conn->connect_error);
 	    }
@@ -33,12 +33,12 @@
 				alert('Error updating record');
 				location.replace("../tempScholarship.php");
 			</script>
-		<?php			
+		<?php
 			}
 		}
-		
+
 		/*If the reject button was clicked*/
-		else {
+		else if($_POST['accrej'] == 'Reject'){
 			$schID=$_POST['schID'];
 			$sql = "UPDATE `scholarship` SET `adminapproval` = 'Rejected' WHERE `scholarship`.`scholarshipID` = $schID;";
 			if ($conn->query($sql) === TRUE) {
@@ -55,7 +55,7 @@
 				alert('Error updating record');
 				location.replace("../tempScholarship.php");
 			</script>
-		<?php			
+		<?php
 			}
 		}
 	}

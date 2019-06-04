@@ -1,1 +1,1 @@
-Scholarship Management System using PHP
+Scholarship Management System Using PHP

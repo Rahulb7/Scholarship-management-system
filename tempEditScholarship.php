@@ -122,6 +122,52 @@ foreach ($rows9 as $key => $value)
 						<span class="icon fa-mobile"></span>
 					</header>
 
+          <?php
+          // EDIT SCHOLARSHIP QUERY CHECK
+
+        	try{
+        		 // Connect to database
+            	$conn = new mysqli("localhost","root","","sms");
+
+          		// Checks Connection
+            	if ($conn->connect_error) {
+              		die("Connection failed: " . $conn->connect_error);
+            	}
+              $schname = $schlocation = $schlocationfrom = $degree = $gender = $scholarshipp = $appdeadline = NULL;
+              $granteesNum = $funding = $description = $eligibility = $benefits = $apply = $links = $contact = $adminapproval = NULL;
+              if(isset($_POST['view'])){
+                $schID = $_POST['scholarshipID'];
+
+                $sql = "SELECT * FROM scholarship WHERE scholarshipID = $schID";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                      $schname = $row["schname"];
+                			$schlocation = $row["schlocation"];
+                			$schlocationfrom = $row["schlocationfrom"];
+                			$degree = $row["degree"];
+                			$gender = $row["gender"];
+                			// $religion = $_POST['religion'];
+                			$scholarshipp=$row["sch"];
+                			$appdeadline = $row["appDeadline"];
+                			$granteesNum = $row["granteesNum"];
+                			$funding = $row["funding"];
+                			$description = $row["description"];
+                			$eligibility = $row["eligibility"];
+                			$benefits = $row["benefits"];
+                			$apply = $row["apply"];
+                			$links = $row["links"];
+                			$contact = $row["contact"];
+                			$adminapproval = $row["adminapproval"];
+
+                      $religion = explode(',',$row['religion']);
+
+                }
+              }
+            }
+          } catch(Exception $e){}
+        ?>
+
 					<!-- One -->
 						<section class="wrapper style4 container">
 
@@ -130,141 +176,142 @@ foreach ($rows9 as $key => $value)
 									<section>
 
 										<header>
-											<h2 style="padding-left: 36%;"><strong><u>Add your Scholarship</u></strong></h2>
+											<h2 style="padding-left: 33%;"><strong><u>Edit your Scholarship</u></strong></h2>
 										</header>
 
                          				<form method = "post" name = "scholarshiplist" id = "scholarshiplist" action = "backend/adminAddDelSch.php" enctype="multipart/form-data">
-
+                                    <label style="padding-left : 40%"><strong>Scholarship ID : <?php echo $schID; ?></strong></label><br><br><br>
 				                            <label><strong>Scholarship Name</strong></label><br>
 				                            <label style="font-size: 15px;">This will be displayed and used for searching your scholarship</label>
-				                            <br><input type = "text" name = "schname" placeholder="Eg:Joint Japan/World Bank Graduate Scholarship Program 2019" required>
+				                            <br><input type = "text" name = "schname" style="background-color : #EDF2F2" placeholder="Eg:Joint Japan/World Bank Graduate Scholarship Program 2019" value="<?php echo $schname; ?>" required disabled>
 				                            <br><br>
 
 								            <label><strong>Locations</strong></label><br>
 				                            <label style="font-size: 15px;">In which states or regions do the students need to study to be able to receive the scholarship?</label>
-				                            <br><input type = "text" name = "schlocation" placeholder="Select one or multiple">
+				                            <br><input type = "text" name = "schlocation" placeholder="Select one or multiple" value="<?php echo $schlocation; ?>">
 				                            <br><br>
 
 				                            <label><strong>Locations From</strong></label><br>
 				                            <label style="font-size: 15px;">Is this scholarship specific for students from a specific state or region?</label>
-				                            <br><input type = "text" name = "schlocationfrom" placeholder="Select one or multiple">
+				                            <br><input type = "text" name = "schlocationfrom" placeholder="Select one or multiple" value="<?php echo $schlocationfrom; ?>">
 				                            <br><br>
 
 				                            <label><strong>Degrees</strong></label><br>
 				                            <label style="font-size: 15px;">This is a scholarship to study a ... (check all that apply)</label><br>
-				                            <select name="degree" style="padding-top: 10px;padding-bottom: 10px; padding-left: 5%">
-			                                    <option value="select" selected>Select</option>
-			                                    <option value="class1">Class 1</option>
-			                                    <option value="class2">Class 2</option>
-			                                    <option value="class3">Class 3</option>
-			                                    <option value="class4">Class 4</option>
-			                                    <option value="class5">Class 5</option>
-			                                    <option value="class6">Class 6</option>
-			                                    <option value="class7">Class 7</option>
-			                                    <option value="class8">Class 8</option>
-			                                    <option value="class9">Class 9</option>
-			                                    <option value="class10">Class 10</option>
-			                                    <option value="class11">Class 11</option>
-			                                    <option value="class12passed">Class 12 Passed</option>
-			                                    <option value="diploma">Diploma</option>
-			                                    <option value="graduation">Graduation</option>
-			                                    <option value="postgraduation">Post-Graduation</option>
-			                                    <option value="phd">PhD</option>
+				                            <select name="degree" style="padding-top: 10px;padding-bottom: 10px; padding-left: 3% ; padding-right: 3%">
+			                                    <option value="select" <?php if($degree === "select") echo "selected" ?>>Select</option>
+			                                    <option value="class1" <?php if($degree === "class1") echo "selected" ?>>Class 1</option>
+			                                    <option value="class2" <?php if($degree === "class2") echo "selected" ?>>Class 2</option>
+			                                    <option value="class3" <?php if($degree === "class3") echo "selected" ?>>Class 3</option>
+			                                    <option value="class4" <?php if($degree === "class4") echo "selected" ?>>Class 4</option>
+			                                    <option value="class5" <?php if($degree === "class5") echo "selected" ?>>Class 5</option>
+			                                    <option value="class6" <?php if($degree === "class6") echo "selected" ?>>Class 6</option>
+			                                    <option value="class7" <?php if($degree === "class7") echo "selected" ?>>Class 7</option>
+			                                    <option value="class8" <?php if($degree === "class8") echo "selected" ?>>Class 8</option>
+			                                    <option value="class9" <?php if($degree === "class9") echo "selected" ?>>Class 9</option>
+			                                    <option value="class10" <?php if($degree === "class10") echo "selected" ?>>Class 10</option>
+			                                    <option value="class11" <?php if($degree === "class11") echo "selected" ?>>Class 11</option>
+			                                    <option value="class12passed" <?php if($degree === "class12passed") echo "selected" ?>>Class 12 Passed</option>
+			                                    <option value="diploma" <?php if($degree === "diploma") echo "selected" ?>>Diploma</option>
+			                                    <option value="graduation" <?php if($degree === "graduation") echo "selected" ?>>Graduation</option>
+			                                    <option value="postgraduation" <?php if($degree === "postgraduation") echo "selected" ?>>Post-Graduation</option>
+			                                    <option value="phd" <?php if($degree === "phd") echo "selected" ?>>PhD</option>
 			                                </select>
 				                            <br><br><br>
 
 				                            <label><strong>Gender</strong></label><br>
 				                            <label style="font-size: 15px;">This is a scholarship for a particular gender ...</label><br>
 				                            <select name="gender" style="padding-top: 10px;padding-bottom: 10px; padding-left: 5%">
-			                                    <option value="select" selected>Select</option>
-			                                    <option value="male">Male</option>
-			                                    <option value="female">Female</option>
-			                                    <option value="male+female">Both</option>
-			                                    <option value="transgender">Transgender</option>
+			                                    <option value="select" <?php if($gender === "select") echo "selected" ?>>Select</option>
+			                                    <option value="male" <?php if($gender === "male") echo "selected" ?>>Male</option>
+			                                    <option value="female" <?php if($gender === "female") echo "selected" ?>>Female</option>
+			                                    <option value="male+female" <?php if($gender === "male+female") echo "selected" ?>>Both</option>
+			                                    <option value="transgender" <?php if($gender === "transgender") echo "selected" ?>>Transgender</option>
 			                                </select>
 			                                <br><br><br>
 
 			                                <label><strong>Religion </strong></label><br>
 				                            <label style="font-size: 15px;">This is a scholarship for a particular gender ...</label><br>
-				                            <input type="checkbox" name="religion[]" value="buddhism">Buddhism<br>
-				                            <input type="checkbox" name="religion[]" value="christian">Christian<br>
-				                            <input type="checkbox" name="religion[]" value="hindu">Hindu<br>
-				                            <input type="checkbox" name="religion[]" value="jain">Jain<br>
-				                            <input type="checkbox" name="religion[]" value="Muslim">Muslim<br>
-				                            <input type="checkbox" name="religion[]" value="Parsi">Parsi<br>
-				                            <input type="checkbox" name="religion[]" value="Sikh">Sikh<br>
+				                            <input type="checkbox" name="religion[]" value="buddhism" <?php echo in_array('buddhism',$religion) ? 'checked="checked"' : ''; ?> />Buddhism<br>
+				                            <input type="checkbox" name="religion[]" value="christian" <?php echo in_array('christian',$religion) ? 'checked="checked"' : ''; ?> />Christian<br>
+				                            <input type="checkbox" name="religion[]" value="hindu" <?php echo in_array('hindu',$religion) ? 'checked="checked"' : ''; ?>>Hindu<br>
+				                            <input type="checkbox" name="religion[]" value="jain" <?php echo in_array('jain',$religion) ? 'checked="checked"' : ''; ?>>Jain<br>
+				                            <input type="checkbox" name="religion[]" value="Muslim" <?php echo in_array('Muslim',$religion) ? 'checked="checked"' : ''; ?>>Muslim<br>
+				                            <input type="checkbox" name="religion[]" value="Parsi" <?php echo in_array('Parsi',$religion) ? 'checked="checked"' : ''; ?>>Parsi<br>
+				                            <input type="checkbox" name="religion[]" value="Sikh" <?php echo in_array('Sikh',$religion) ? 'checked="checked"' : ''; ?>>Sikh<br>
 											<br><br>
 
 											<label><strong>Scholarship type</strong></label><br>
 				                            <label style="font-size: 15px;">Selct any Type of Scholarship from Below ...</label><br>
-				                            <select name="scholarship" style="padding-top: 10px;padding-bottom: 10px; padding-left: 10%">
-			                                    <option value="select" selected>Select</option>
-			                                    <option value="merit_based">Merit Based</option>
-			                                    <option value="means_based">Means Based</option>
-			                                    <option value="cultural_talent">Cultural Talent</option>
-			                                    <option value="visual_art">Visual Art</option>
-			                                    <option value="sports_talent">Sports Talent</option>
-			                                    <option value="science_maths_based">Science, Maths Based</option>
-			                                    <option value="technology_based">Technology Based</option>
+				                            <select name="scholarship" style="padding-top: 10px;padding-bottom: 10px; padding-left: 2% ; padding-right: 2%">
+			                                    <option value="select" <?php if($scholarshipp === "select") echo "selected" ?>>Select</option>
+			                                    <option value="merit_based" <?php if($scholarshipp === "merit_based") echo "selected" ?>>Merit Based</option>
+			                                    <option value="means_based" <?php if($scholarshipp === "means_based") echo "selected" ?>>Means Based</option>
+			                                    <option value="cultural_talent" <?php if($scholarshipp === "cultural_talent") echo "selected" ?> >Cultural Talent</option>
+			                                    <option value="visual_art" <?php if($scholarshipp === "visual_art") echo "selected" ?> >Visual Art</option>
+			                                    <option value="sports_talent" <?php if($scholarshipp === "sports_talent") echo "selected" ?>>Sports Talent</option>
+			                                    <option value="science_maths_based" <?php if($scholarshipp === "science_maths_based") echo "selected" ?> >Science, Maths Based</option>
+			                                    <option value="technology_based" <?php if($scholarshipp === "technology_based") echo "selected" ?> >Technology Based</option>
 			                                  </select>
 			                                <br><br><br>
 
 				                            <label><strong>Application Deadline</strong></label><br>
 				                            <label style="font-size: 15px;">What is the deadline of application?</label>
-				                            <br><input type = "date" name = "appdeadline">
+				                            <br><input type = "date" name = "appdeadline" value="<?php echo $appdeadline; ?>">
 				                            <br><br>
 
 				                            <label><strong>Number of Applications maximum allowed</strong></label><br>
 				                            <label style="font-size: 15px;">You can limit the number of applicants[This wont be displayed]</label>
-				                            <br><input type = "text" name = "granteesNum">
+				                            <br><input type = "text" name = "granteesNum" value="<?php echo $granteesNum; ?>">
 				                            <br><br>
 
 											<label><strong>Funding</strong></label><br>
 				                            <label style="font-size: 15px;">Short description about funding. e.g. "$5000,-" or "100% tuition fee"</label>
-				                            <br><input type = "text" name = "funding">
+				                            <br><input type = "text" name = "funding" value="<?php echo $funding; ?>">
 				                            <br><br>
 
 											<label><strong>Description</strong></label><br>
 				                            <label style="font-size: 15px;">Give a general description of the scholarship. This is the first text that users will read.</label>
-				                            <br><textarea name = "description" rows="5"></textarea>
+				                            <br><textarea name = "description" rows="5" ><?php echo $description; ?></textarea>
 				                            <br><br>
 
 											<label><strong>Eligibility</strong></label><br>
 				                            <label style="font-size: 15px;">What students are eligible? Are there any requirements?</label>
-				                            <br><textarea name = "eligibility" rows="5"></textarea>
+				                            <br><textarea name = "eligibility" rows="5"><?php echo $eligibility; ?></textarea>
 				                            <br><br>
 
 											<label><strong>Benefits</strong></label><br>
 				                            <label style="font-size: 15px;">When a student gets the scholarship, what are their benefits?</label>
-				                            <br><textarea name = "benefits" rows="5"></textarea>
+				                            <br><textarea name = "benefits" rows="5"><?php echo $benefits; ?></textarea>
 				                            <br><br>
 
 											<label><strong>How can you apply ?</strong></label><br>
 				                            <label style="font-size: 15px;">How should a student apply? What are the requirements for application?</label>
-				                            <br><textarea name = "apply" rows="5"></textarea>
+				                            <br><textarea name = "apply" rows="5"><?php echo $apply; ?></textarea>
 				                            <br><br>
 
 				                            <label><strong>Important Links</strong></label><br>
 				                            <label style="font-size: 15px;">Provide links for your organization and scholarship if any.</label>
-				                            <br><textarea name = "links" rows="5"></textarea>
+				                            <br><textarea name = "links" rows="5"><?php echo $links; ?></textarea>
 				                            <br><br>
 
 				                            <label><strong>Contact Details</strong></label><br>
 				                            <label style="font-size: 15px;">Email, website, contact info ...</label>
-				                            <br><textarea name = "contact" rows="5"></textarea>
+				                            <br><textarea name = "contact" rows="5"><?php echo $contact; ?></textarea>
 				                            <br><br>
 
 				                             <label><strong>Upload Document</strong></label>&nbsp;&nbsp;<label style="font-size: 15px;color: red; ">* This is compulsory.</label><br>
 				                            <label style="font-size: 15px;">Provide a soft copy of your scholarship so as to validate your scholarship.</label>
 				                            <br>
 				                            <input type="file" name="validate" id="validate" onchange=" return fileValidation('validate')" required><br>
-
 				                            <br><br>
 
+				                            <input type="hidden" name="scholarshipID" value="<?php echo $schID; ?>">
+                                    <input type="hidden" name="schname" value="<?php echo $schname; ?>">
 				                            <input type="hidden" name="adminapproval" value="Pending">
 
                             				<div class = "text-center">
-                            					<input type = "submit" name = "deladd" value = "Submit Scholarship >">
+                            				<input type = "submit" name = "deladd" value = "EDIT Scholarship >">
 											</div>
 										</form>
 

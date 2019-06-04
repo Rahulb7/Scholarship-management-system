@@ -28,22 +28,22 @@ foreach ($rows9 as $key => $value)
 			$_SESSION['currentUserName'] = $value;
 		}
 
-		
+
 		if($key == 1)
 		{
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
 		}
 
-		
+
 	    if($key == 2)
-	    {                                	
+	    {
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
 		}
 	}
 }
 ?>
 
-                                
+
 
 <!DOCTYPE HTML>
 <html>
@@ -57,7 +57,7 @@ foreach ($rows9 as $key => $value)
       <meta name="description" content="">
       <meta name="author" content="">
 
-  
+
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -115,20 +115,27 @@ foreach ($rows9 as $key => $value)
                            		$sql="SELECT * FROM application AS A JOIN scholarship AS S on A.scholarshipID=S.scholarshipID where studentID=$currentUserID";
 					            $result = $conn->query($sql);
 					            if($result->num_rows > 0){
-                             ?>	
+                             ?>
                               <label style="margin-left: 30%"><h2><b>Select Your Application</b></h2></label>
-                              <div class="col-sm-10"> 
-                                <select name="class" id="class" onchange="viewcontent()" style="margin-left: 30%;padding-top: 1%;padding-bottom: 1%">
+                              <div class="col-sm-10">
+                                <select style="float:inherit" name="class" id="class" onchange="viewcontent()" style="margin-left: 30%;padding-top: 1%;padding-bottom: 1%">
 
                                     <option value="select" selected>Select</option>
                             	<?php
                             		while($row = $result->fetch_assoc()){
                             			$tempschid=$row['scholarshipID'];
                             			$tempschname=$row['schname'];
-                            	?>	
+                            	?>
                                     	<option value="<?php echo $tempschid;?>"><?php echo $tempschname;?></option>
                                 <?php
                                 	}
+                                } else {
+                                ?>
+                                  <h1 style="margin-left:25%">You Have Not Applied To Any Scholarship</h1>
+                                  <form name="gotoapply" action="tempUserApply.php" style="margin-left:33%">
+                                    <input type="submit" value="Search For Scholarship" />
+                                  </form>
+                                <?php
                                 }
                                 ?>
                                   </select>
@@ -143,17 +150,17 @@ foreach ($rows9 as $key => $value)
                                   		<th style="width:10%">Application ID</th>
                                   		<th style="width:40%">Scholarship</th>
                                   		<th style="width:10%">Signatory Approval</th>
-                                  		<th style="width:10%">Status</th>
+                                  		<th style="width:10%">App Status</th>
                                 	</tr>
                             	</thead>
                             	<tbody>
                                 	<?php
-                                  	$queryScholarship = "SELECT A.applicationID, S.schname, A.verifiedBySignatory, A.status  FROM application A join scholarship S on A.scholarshipID = S.scholarshipID WHERE A.studentID = $_SESSION[currentUserID] AND A.scholarshipID=$tempschid";
+                                  	$queryScholarship = "SELECT A.applicationID, S.schname, A.verifiedBySignatory, A.appstatus  FROM application A join scholarship S on A.scholarshipID = S.scholarshipID WHERE A.studentID = $currentUserID AND A.scholarshipID=$tempschid";
                                   	$qSchoResult = mysqli_query($conn, $queryScholarship);
 
                                   	while($rows=mysqli_fetch_row($qSchoResult))
                                   	{
-                                  		
+
                                     	foreach($rows as $key => $value){
 
 	                                      	if ($key == 0){
@@ -168,12 +175,12 @@ foreach ($rows9 as $key => $value)
 	                                      	}
 	                                      	if($key == 3){
 	                                      	?>
-	                                      		</td><td><?php echo $value;	                                      		
+	                                      		</td><td><?php echo $value;
 	                                      	}
                                     	}
 
                                   	}
-                                	?>		                                			                                
+                                	?>
                             	</tbody>
                           	</table>
 						</section>
