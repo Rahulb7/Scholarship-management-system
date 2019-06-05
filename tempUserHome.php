@@ -11,7 +11,7 @@
   }
 
   // Connect to database
-    $conn = new mysqli("localhost:3309","root","","sms");
+    $conn = new mysqli("localhost","root","","sms");
 
   // Checks Connection
     if ($conn->connect_error) {
