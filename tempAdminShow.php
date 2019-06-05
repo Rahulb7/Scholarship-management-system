@@ -1,6 +1,4 @@
-
 <!DOCTYPE HTML>
-
 <html>
   <head>
       <title>Home</title>
@@ -30,7 +28,7 @@
           <nav id = "nav">
             <ul>
               <li class = ""><a href = "tempAdmin.php">Home</a></li>
-              <li class = "submenu current">
+              <li class = "submenu">
                 <a href = "#">Applications</a>
                 <ul>
                   <li><a href = "tempPendingApp.php">Pending Students</a></li>
@@ -45,8 +43,7 @@
                   <li><a href = "tempScholarship.php?scholarship=Approved">Accepted Scholarships</a></li>
                   <li><a href = "tempScholarship.php?scholarship=Rejected">Rejected Scholarships</a></li>
                 </ul>
-              </li>
-              <li class = "submenu">
+              </li><li class = "submenu current">
                 <a href = "tempUsersShow.php">Users</a>
                 <ul>
                   <li><a href = "tempAdminShow.php">Admin</a></li>
@@ -74,82 +71,7 @@
 								<div class="content">
 									<section>
 
-										<header>
-											<h3><strong>Applications of Pending Students</strong></h3>
-										</header>
-                    <?php
-                        /* Connect to database */
-                        $conn = new mysqli("localhost","root","","sms");
-                        /* Checks Connection */
-                        if ($conn->connect_error) {
-                          die("Connection failed: " . $conn->connect_error);
-                        }
 
-                        $to_query = "SELECT A.applicationID,A.studentID,A.scholarshipID,S.schname,A.appDate,
-                        A.appstatus,A.verifiedBySignatory from application AS A join scholarship AS S ON A.scholarshipID=S.scholarshipID WHERE A.verifiedBySignatory='Pending'";
-                        $sql_result = mysqli_query($conn,$to_query);
-                        if(mysqli_num_rows($sql_result) > 0){
-                          ?>
-                          <table class="table table-bordered">
-                            <thead>
-                              <tr>
-
-                                <th class = "col-md-1"><strong>Application Number[ID]</strong></th>
-                                <th class = "col-md-1"><strong>Applicant ID</strong></th>
-                                <th class = "col-md-1"><strong>Scholarship ID</strong></th>
-                                <th class = "col-md-1" style="width: 25%"><strong>Scholarship Name</strong></th>
-                                <th class = "col-md-1" ><strong>Application Date</strong></th>
-                                <th class = "col-md-1 text-center"><strong>AppStatus</strong></th>
-                                <th class = "col-md-1"><strong>Signatory Approval</strong></th>
-
-                              </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            while($rows=mysqli_fetch_row($sql_result))
-                            {
-                              $appID = 0;
-                              foreach ($rows as $key => $value)
-                                  {
-                                    if ($key == 0)
-                                    {
-                                      $appID = $value;
-                                      ?><tr><td><?php echo $appID;?></td><?php
-                                    }
-                                        if($key == 1)
-                                        {
-                                          ?><td><?php echo $value;?></td><?php
-                                        }
-                                        if($key == 2)
-                                        {
-                                           ?><td><?php echo $value;?></td><?php
-                                        }
-                                        if($key == 3)
-                                        {
-                                        	?><td><?php echo $value;?></td><?php
-                                        }
-                                        if($key == 4)
-                                        {
-                          				?><td><?php echo $value;?></td><?php
-                                        }
-                                    if ($key == 5)
-                                    {
-                                      ?><td><?php echo $value;?></td><?php
-                                    }
-                                    if($key == 6){
-                                      ?>
-                                        <td><?php echo $value;?></td>
-                                <?php
-                                    }
-                                  }
-                            }
-                          } else{
-                              echo "No Pending Applications";
-                          }
-                        mysqli_close($conn);
-                        ?>
-                        </tbody>
-                    </table>
 									</section>
 								</div>
 						</section>

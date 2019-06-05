@@ -17,7 +17,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
 
-  
+
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -49,6 +49,14 @@
                   <li><a href = "tempScholarship.php?scholarship=Pending">Pending Scholarships</a></li>
                   <li><a href = "tempScholarship.php?scholarship=Approved">Accepted Scholarships</a></li>
                   <li><a href = "tempScholarship.php?scholarship=Rejected">Rejected Scholarships</a></li>
+                </ul>
+              </li>
+              <li class = "submenu">
+                <a href = "tempUsersShow.php">Users</a>
+                <ul>
+                  <li><a href = "tempAdminShow.php">Admin</a></li>
+                  <li><a href = "tempSignatoryShow.php">Signatory</a></li>
+                  <li><a href = "tempStudentShow.php">Students</a></li>
                 </ul>
               </li>
               <li><a href = "backend/logout.php" class = "button special">Logout</a></li>
@@ -131,7 +139,7 @@
 
               </div>
             </div>
-                
+
             <div class="row">
               <div class="6u 12u(narrower)">
 
@@ -144,7 +152,7 @@
                 </section>
 
               </div>
-              
+
               <div class="6u 12u(narrower)">
 
                 <section>

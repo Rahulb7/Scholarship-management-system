@@ -62,6 +62,14 @@
                   <li><a href = "tempScholarship.php?scholarship=Rejected">Rejected Scholarships</a></li>
                 </ul>
               </li>
+              <li class = "submenu">
+                <a href = "tempUsersShow.php">Users</a>
+                <ul>
+                  <li><a href = "tempAdminShow.php">Admin</a></li>
+                  <li><a href = "tempSignatoryShow.php">Signatory</a></li>
+                  <li><a href = "tempStudentShow.php">Students</a></li>
+                </ul>
+              </li>
               <li><a href = "backend/logout.php" class = "button special">Logout</a></li>
             </ul>
           </nav>

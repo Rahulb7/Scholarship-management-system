@@ -175,10 +175,9 @@ foreach ($rows9 as $key => $value)
 	                                      	}
 	                                      	if($key == 3){
 	                                      	?>
-	                                      		</td><td><?php echo $value;
-	                                      	}
+                                        </td><td><?php echo $value;?></td></tr><?php
+                                    	  }
                                     	}
-
                                   	}
                                 	?>
                             	</tbody>

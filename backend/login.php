@@ -18,22 +18,10 @@
         $STH->execute($data);
         $users = $STH->fetchAll(PDO::FETCH_OBJ);
 
-      if($users[0]->status == 'active'){
+
         if(isset($users[0]) AND password_verify($_POST['password'], $users[0]->password))
         {
-            $sql = $DBH->prepare("SELECT * FROM verify_signup WHERE upMail = :email");
-            $sql->execute($data);
-            $user_verify = $sql->fetchAll(PDO::FETCH_OBJ);
-            if(isset($user_verify[0]) AND ($user_verify[0]->action == 0)){
-              $flag = 0;
-
-              ?>
-                 <script type="text/javascript">
-                    alert("YOU NEED TO VERIFY EMAIL ADDRESS TO ACTIVATE YOUR ACCOUNT!");
-                    location.replace("verify_signupcode.php");
-                </script>
-              <?php
-            }
+          if($users[0]->status == 'active'){
 
             $_SESSION['email'] = $users[0]->upMail;
             //User type -- 1 (student), 2(admin), 3(sig)
@@ -41,6 +29,23 @@
             $_SESSION['currentUserID'] = $users[0]->ID;
             $_SESSION['isLoggedIn'] = TRUE;
 
+            $sql = $DBH->prepare("SELECT * FROM verify_signup WHERE upMail = :email");
+            $sql->execute($data);
+            $user_verify = $sql->fetchAll(PDO::FETCH_OBJ);
+            if(isset($user_verify[0]) AND ($user_verify[0]->action == 0)){
+              $flag = 0;
+              ?>
+                 <script type="text/javascript">
+                    alert("YOU NEED TO VERIFY EMAIL ADDRESS TO ACTIVATE YOUR ACCOUNT!");
+                    location.replace("verify_signupcode.php");
+                </script>
+              <?php
+            }
+          } else{
+              $flag = 0;
+              $_SESSION['errMsg'] = "Your Account is currently in INACTIVE Mode!";
+              header('Location: ../index.php');
+          }
         }
         $DBH = null;
         if($flag != 0){
@@ -52,10 +57,6 @@
             header('Location: ../index.php');
           }
         }
-      } else {
-        $_SESSION['errMsg'] = "Your Account is currently in INACTIVE Mode!";
-        header('Location: ../index.php');
-      }
     } catch(PDOException $e)
     {
         echo $e->getMessage();

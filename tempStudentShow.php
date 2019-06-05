@@ -1,6 +1,4 @@
-
 <!DOCTYPE HTML>
-
 <html>
   <head>
       <title>Home</title>
@@ -30,7 +28,7 @@
           <nav id = "nav">
             <ul>
               <li class = ""><a href = "tempAdmin.php">Home</a></li>
-              <li class = "submenu current">
+              <li class = "submenu">
                 <a href = "#">Applications</a>
                 <ul>
                   <li><a href = "tempPendingApp.php">Pending Students</a></li>
@@ -45,8 +43,7 @@
                   <li><a href = "tempScholarship.php?scholarship=Approved">Accepted Scholarships</a></li>
                   <li><a href = "tempScholarship.php?scholarship=Rejected">Rejected Scholarships</a></li>
                 </ul>
-              </li>
-              <li class = "submenu">
+              </li><li class = "submenu current">
                 <a href = "tempUsersShow.php">Users</a>
                 <ul>
                   <li><a href = "tempAdminShow.php">Admin</a></li>
@@ -73,83 +70,78 @@
 							<!-- Content -->
 								<div class="content">
 									<section>
-
-										<header>
-											<h3><strong>Applications of Pending Students</strong></h3>
-										</header>
-                    <?php
-                        /* Connect to database */
+                      <h1 style="text-align:center; font-size:25px">Student Details</h1>
+                      <?php
                         $conn = new mysqli("localhost","root","","sms");
-                        /* Checks Connection */
                         if ($conn->connect_error) {
                           die("Connection failed: " . $conn->connect_error);
                         }
-
-                        $to_query = "SELECT A.applicationID,A.studentID,A.scholarshipID,S.schname,A.appDate,
-                        A.appstatus,A.verifiedBySignatory from application AS A join scholarship AS S ON A.scholarshipID=S.scholarshipID WHERE A.verifiedBySignatory='Pending'";
-                        $sql_result = mysqli_query($conn,$to_query);
-                        if(mysqli_num_rows($sql_result) > 0){
+                        $sql = "SELECT * FROM student";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
                           ?>
                           <table class="table table-bordered">
                             <thead>
-                              <tr>
-
-                                <th class = "col-md-1"><strong>Application Number[ID]</strong></th>
-                                <th class = "col-md-1"><strong>Applicant ID</strong></th>
-                                <th class = "col-md-1"><strong>Scholarship ID</strong></th>
-                                <th class = "col-md-1" style="width: 25%"><strong>Scholarship Name</strong></th>
-                                <th class = "col-md-1" ><strong>Application Date</strong></th>
-                                <th class = "col-md-1 text-center"><strong>AppStatus</strong></th>
-                                <th class = "col-md-1"><strong>Signatory Approval</strong></th>
-
-                              </tr>
+                                <tr>
+                                    <th style="width:10%">Student ID</th>
+                                    <th style="width:30%">Email ID</th>
+                                    <th style="width:20%">Name</th>
+                                    <th style="width:10%">Status</th>
+                                    <th style="width:7%"></th>
+                                    <th style="width:7%"></th>
+                                    <th style="width:7%"></th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            while($rows=mysqli_fetch_row($sql_result))
-                            {
-                              $appID = 0;
-                              foreach ($rows as $key => $value)
-                                  {
-                                    if ($key == 0)
-                                    {
-                                      $appID = $value;
-                                      ?><tr><td><?php echo $appID;?></td><?php
-                                    }
-                                        if($key == 1)
-                                        {
-                                          ?><td><?php echo $value;?></td><?php
-                                        }
-                                        if($key == 2)
-                                        {
-                                           ?><td><?php echo $value;?></td><?php
-                                        }
-                                        if($key == 3)
-                                        {
-                                        	?><td><?php echo $value;?></td><?php
-                                        }
-                                        if($key == 4)
-                                        {
-                          				?><td><?php echo $value;?></td><?php
-                                        }
-                                    if ($key == 5)
-                                    {
-                                      ?><td><?php echo $value;?></td><?php
-                                    }
-                                    if($key == 6){
-                                      ?>
-                                        <td><?php echo $value;?></td>
-                                <?php
-                                    }
-                                  }
-                            }
-                          } else{
-                              echo "No Pending Applications";
+                          <?php
+                            while($row = $result->fetch_assoc()) {
+                                $studentID =$row['studentID'];
+                                $email = $row['upMail'];
+                                $name = $row['firstName']." ".$row['lastName'];
+                                if($name == NULL || $name == ""){
+                                  $name = "NULL";
+                                }
+                                $status = $row['status'];
+                            ?>
+                                <tr>
+                                  <td><?php echo $studentID; ?></td>
+                                  <td><?php echo $email; ?></td>
+                                  <td><?php echo $name; ?></td>
+                                  <td><?php echo $status; ?></td>
+                                  <td>
+                                    <form action="adminShowUser.php" method="post">
+                                      <input type="hidden" name="ID" value="<?php echo $studentID; ?>">
+                                      <button name="showUser" value="showStudent">View</button>
+                                    </form>
+                                  </td>
+                                  <td>
+                                    <form name="blockform" method="post" onsubmit="confirmblock(this)" action="backend/adminBlockUser.php">
+                                      <input type="hidden" name="ID" value="<?php echo $studentID; ?>">
+                                      <button  name="blockUser" id="blockUserbtn" value="blockStudent" <?php if($row['status'] === "inactive"){
+                                        echo "disabled";
+                                        echo " style = 'color:#fff'";
+                                      } ?>>Block</button>
+                                    </form>
+                                  </td>
+                                  <td>
+                                    <form name="unblockform" action="backend/adminUnblockUser.php" onsubmit="confirmunblock(this)"  method="post">
+                                      <input type="hidden" name="ID" value="<?php echo $studentID; ?>">
+                                      <button name="unblockUser" id="unblockUserbtn" value="unblockStudent" <?php if($row['status'] === "active"){
+                                        echo "disabled";
+                                        echo " style = 'color:#fff'";
+                                      } ?>>UnBlock</button>
+                                    </form>
+                                  </td>
+                                </tr>
+                            <?php } ?>
+                          </tbody>
+                        </table>
+                        <?php
+                          } else {
+                              echo "No result";
                           }
-                        mysqli_close($conn);
-                        ?>
-                        </tbody>
-                    </table>
+                          $conn->close();
+                      ?>
 									</section>
 								</div>
 						</section>
@@ -227,6 +219,23 @@
 		</div>
 
 		<!-- Scripts -->
+      <script type="text/javascript">
+        function confirmblock(form){
+          if(confirm("This will Block Student as well as All his Applications.\n Are your Sure?")){
+            document.blockform.submit();
+          } else{
+            event.preventDefault();
+          }
+        }
+        function confirmunblock(form){
+          if(confirm("This will unblock Student as well as All his Applications.\n Are your Sure?")){
+            document.unblockform.submit();
+          } else{
+            event.preventDefault();
+          }
+        }
+      </script>
+
       <script src="js/jquery.min.js"></script>
       <script src="js/jquery.dropotron.min.js"></script>
       <script src="js/jquery.scrolly.min.js"></script>
