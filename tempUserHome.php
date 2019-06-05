@@ -10,10 +10,10 @@
     header("Location:index.php");
   }
 
-  // Connect to database 
-    $conn = new mysqli("localhost","root","","sms");
+  // Connect to database
+    $conn = new mysqli("localhost:3309","root","","sms");
 
-  // Checks Connection 
+  // Checks Connection
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
@@ -31,7 +31,7 @@
     		if($key == 1){
     			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
     		}
-        if($key == 2){                                	
+        if($key == 2){
           $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
   		  }
 	    }
@@ -50,13 +50,13 @@
       <meta name="description" content="">
       <meta name="author" content="">
 
-  
+
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
 
       <!-- Custom CSS -->
       <link href="css/main.css" rel="stylesheet">
-      
+
       <title>Home</title>
   </head>
 
@@ -152,7 +152,7 @@
 
               </div>
             </div>
-                
+
             <div class="row">
               <div class="6u 12u(narrower)">
 
@@ -165,7 +165,7 @@
                 </section>
 
               </div>
-              
+
               <div class="6u 12u(narrower)">
 
                 <section>
@@ -186,7 +186,7 @@
             </footer>
 
           </section>
-        
+
           <section class="wrapper style1 container special">
               <div class="row">
 
@@ -253,7 +253,7 @@
 
               </div>
             </section>
-        
+
         </article>
 
         <section id="cta">
