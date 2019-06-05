@@ -10,10 +10,10 @@
     header("Location:index.php");
   }
 
-  // Connect to database
+  // Connect to database 
     $conn = new mysqli("localhost","root","","sms");
 
-  // Checks Connection
+  // Checks Connection 
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
@@ -31,7 +31,7 @@
     		if($key == 1){
     			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
     		}
-        if($key == 2){
+        if($key == 2){                                	
           $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
   		  }
 	    }
@@ -50,7 +50,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
 
-
+  
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -66,7 +66,7 @@
         <header id = "header">
           <h1 id = "logo"><a href = "tempUserHome.php">Scholarships <span>that matter</span></a></h1>
           <nav id = "nav">
-            <ul>
+            <ul>  
               <li><a href = "tempUserHome.php">Home</a></li>
               <li><a href = "tempUserProfile.php">User Profile</a></li>
               <li class = "current"><a href = "#">Apply</a></li>
@@ -83,77 +83,59 @@
           <header class="special container">
             <span class="icon fa-mobile"></span>
           </header>
-
+          
           <!-- One -->
-          <?php
+          <?php 
             $conn = new mysqli("localhost","root","","sms");
             $schid=$_GET['sch'];
             $_SESSION['schid']=$schid;
-
-            $xml=simplexml_load_file("backend/scholarship_data.xml") or die("Error: Cannot create object");
-            foreach($xml->children() as $sch){
-                if($sch['scholarshipID'] == $schid){
-                  $schID = $sch->sigID;
-                  $schname = $sch->schname;
-                  $schlocation = $sch->schlocation;
-                  $schlocationfrom = $sch->schlocationfrom;
-                  $degree = $sch->degree;
-                  $gender = $sch->gender;
-                  $religion = $sch->religion;
-                  $scholarshipp = $sch->sch;
-                  $appDeadline = $sch->appDeadline;
-                  $granteesNum = $sch->granteesNum;
-                  $funding = $sch->funding;
-                  $description = $sch->description;
-                  $eligibility = $sch->eligibility;
-                  $benefits = $sch->benefits;
-                  $apply = $sch->apply;
-                  $links = $sch->links;
-                  $contact = $sch->contact;
-
+            $sql="SELECT * FROM scholarship where scholarshipID=$schid";
+            $result = $conn->query($sql);
+            if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
           ?>
             <section class="wrapper style4 container">
 
               <!-- Content -->
                 <div class="content">
-                  <section style="text-align: justify;">
-                    <h1><b>What is <?php echo $schname; ?> ?</b></h1>
-                    <p><?php echo $description; ?></p>
+                  <section style="text-align: justify;"> 
+                    <h1><b>What is <?php echo $row["schname"]; ?> ?</b></h1>
+                    <p><?php echo $row["description"]; ?></p>
                   </section>
                   <br><hr><br>
-                  <section>
+                  <section>  
                     <h1><b>Who can apply for the scholarship?</b></h1>
-                    <p><?php echo $eligibility; ?></p>
+                    <p><?php echo $row["eligibility"]; ?></p>
                   </section>
                   <br><hr><br>
-                  <section>
+                  <section>  
                     <h1><b>What are the benifits?</b></h1>
-                    <p><?php echo $benefits; ?></p>
+                    <p><?php echo $row["benefits"]; ?></p>
                   </section>
                   <br><hr><br>
-                  <section>
+                  <section>  
                     <h1><b>How can you apply?</b></h1>
-                    <p><?php echo $apply; ?></p>
+                    <p><?php echo $row["apply"]; ?></p>
                   </section>
                   <br><hr><br>
-                  <section>
+                  <section>  
                     <h1><b>What are the documents required?</b></h1>
                     <p><?php //echo $row["documents"]; ?></p>
                   </section>
                   <br><hr><br>
-                  <section>
+                  <section> 
                     <h1><b>What are the selection criteria?</b></h1>
                     <p><?php //echo $row["selection"]; ?></p>
                   </section>
                   <br><hr><br>
-                  <section>
+                  <section>  
                     <h1><b>Important Links</b></h1>
-                    <p><?php echo $links; ?></p>
+                    <p><?php echo $row["links"]; ?></p>
                   </section>
                   <br><hr><br>
-                  <section>
+                  <section>  
                     <h1><b>Contact Details</b></h1>
-                    <p><?php echo $contact; } } $conn->close(); ?></p>
+                    <p><?php echo $row["contact"]; } } $conn->close(); ?></p>
                   </section>
                   <br><hr><br>
                   <form action="apply.php" method="post">
@@ -178,7 +160,7 @@
           <ul class="copyright">
             <li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
           </ul>
-        </footer>
+        </footer>        
     </div>
 
      <!-- Scripts -->

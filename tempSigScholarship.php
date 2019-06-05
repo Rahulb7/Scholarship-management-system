@@ -8,10 +8,10 @@
     header("Location:index.php");
   }
 
-  // Connect to database
+  // Connect to database 
     $conn = new mysqli("localhost:3309","root","","sms");
-
-  // Checks Connection
+  
+  // Checks Connection 
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
@@ -29,20 +29,20 @@ foreach ($rows9 as $key => $value)
 			$_SESSION['currentUserName'] = $value;
 		}
 
-
+		
 		if($key == 1)
 		{
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
 		}
 
-
+		
 	    if($key == 2)
-	    {
+	    {                                	
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
 		}
 	}
 }
-
+  
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -56,7 +56,7 @@ foreach ($rows9 as $key => $value)
       <meta name="description" content="">
       <meta name="author" content="">
 
-
+  
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -74,7 +74,6 @@ foreach ($rows9 as $key => $value)
           <nav id = "nav">
             <ul>
                <li ><a href = "tempSigHome.php">Home</a></li>
-							 <li><a href = "tempSigProfile.php">User Profile</a></li>
                <li class = "current submenu">
                 <a href = "#">Scholarships</a>
                 <ul>
@@ -111,25 +110,23 @@ foreach ($rows9 as $key => $value)
 							<!-- Content -->
 								<div class="content">
 									<section>
-
+										
 										<header>
 											<h3 style="padding-left: 36%;"><strong>Your Scholarships</strong></h3><br>
 										</header>
 
 				                                <?php
 				                                  	$sql = "SELECT * FROM scholarship WHERE sigID='".$_SESSION['currentUserID']."'";
-													$result = $conn->query($sql);
+													$result = $conn->query($sql);	
 													if ($result->num_rows > 0) {
 				                                ?>
 				                            <table class = "table table-hover table-condensed">
 				                              <thead>
 				                                <tr>
 				                                  <th class = "col-md-1"><strong>Scholarship</strong></th>
-				                                  <th class = "col-md-2"><strong>Application Deadline</strong></th>
-				                                  <th class = "col-md-1"><strong>Applications Limit</strong></th>
-																					<th class = "col-md-1"><strong>Total Applicants</strong></th>
+				                                  <th class = "col-md-1"><strong>Application Status</strong></th>
+				                                  <th class = "col-md-1"><strong>Total Applicants</strong></th>
 				                               	  <th class = "col-md-1"><strong>Admin Approval</strong></th>
-																					<th class = "col-md-1"><strong>Scholarship Status</strong></th>
 				                                  <th class = "col-md-1"></th>
 
 				                                </tr>
@@ -139,10 +136,10 @@ foreach ($rows9 as $key => $value)
 				                              			while($row = $result->fetch_assoc()) {
 				                              		?>
 				                                    <tr>
-
-				                                      <td style="text-transform : uppercase;"><strong><?php echo $row['schname']; ?></strong></td>
-				                                      <td style="padding :1%">
-				                                        <?php
+				                                     
+				                                      <td><a href="#" data-toggle="modal" data-target="#scholarshipDescription"><?php echo $row['schname']; ?></a></td>
+				                                      <td>
+				                                        <?php 
 				                                          $now = time();
 				                                          $date = $row['appDeadline'];
 
@@ -153,17 +150,15 @@ foreach ($rows9 as $key => $value)
 				                                          else{
 				                                              echo "Finished";
 				                                          }
-				                                        ?>
+				                                        ?>  
 				                                      </td>
 				                                      <td><?php echo $row['granteesNum'];?></td>
-																							<td>20</td>
 				                                      <td><?php echo $row['adminapproval'];?></td>
-																							<td><strong><u>active</u></strong></td>
 
 					                                  <td>
 				                                      	<form method = "post" name = "editScholarshipForm" action = "tempEditScholarship.php">
 					                                      	<input type = "hidden" name = "scholarshipID" value = "<?php echo $row['scholarshipID']; ?>">
-					                                        <button type = "submit" name="view" class = "btn btn-info">View</button>
+					                                        <button type = "submit" class = "btn btn-info">View</button>
 					                                  	</form>
 					                                  	</td>
 				                                    </tr>
@@ -171,7 +166,7 @@ foreach ($rows9 as $key => $value)
 				                              </tbody>
 				                              <?php
 				                                }
-				                                else{
+				                                else{ 
 				                               ?>
 				                                	<h3 align="text-center">You Have Not Submitted Any Scholarship</h3>
 				                               <?php
@@ -190,7 +185,7 @@ foreach ($rows9 as $key => $value)
 
 						</section>
 
-
+					
 				</article>
 
 			<!-- Footer -->
@@ -235,3 +230,4 @@ foreach ($rows9 as $key => $value)
     <script src="js/creative.js"></script>
 	</body>
 </html>
+

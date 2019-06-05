@@ -10,9 +10,9 @@
     header("Location:index.php");
   }
 
-  // Connect to database
+  // Connect to database 
     $conn = new mysqli("localhost:3309","root","","sms");
-  // Checks Connection
+  // Checks Connection 
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
@@ -30,20 +30,20 @@ foreach ($rows9 as $key => $value)
 			$_SESSION['currentUserName'] = $value;
 		}
 
-
+		
 		if($key == 1)
 		{
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
 		}
 
-
+		
 	    if($key == 2)
-	    {
+	    {                                	
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
 		}
 	}
 }
-
+    
 ?>
 
 
@@ -68,7 +68,6 @@ foreach ($rows9 as $key => $value)
           <nav id = "nav">
             <ul>
               <li class = "current"><a href = "#">Home</a></li>
-              <li><a href = "tempSigProfile.php">User Profile</a></li>
                <li class = "submenu">
                 <a href = "#">Scholarships</a>
                 <ul>
@@ -165,7 +164,7 @@ foreach ($rows9 as $key => $value)
 
               </div>
             </div>
-
+                
             <div class="row">
               <div class="6u 12u(narrower)">
 
@@ -178,7 +177,7 @@ foreach ($rows9 as $key => $value)
                 </section>
 
               </div>
-
+              
               <div class="6u 12u(narrower)">
 
                 <section>

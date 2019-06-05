@@ -118,7 +118,7 @@ foreach ($rows9 as $key => $value)
                              ?>
                               <label style="margin-left: 30%"><h2><b>Select Your Application</b></h2></label>
                               <div class="col-sm-10">
-                                <select style="float:inherit" name="class" id="class" onchange="viewcontent()" style="margin-left: 30%;padding-top: 1%;padding-bottom: 1%">
+                                <select name="class" id="class" onchange="viewcontent()" style="margin-left: 30%;padding-top: 1%;padding-bottom: 1%">
 
                                     <option value="select" selected>Select</option>
                             	<?php
@@ -129,13 +129,6 @@ foreach ($rows9 as $key => $value)
                                     	<option value="<?php echo $tempschid;?>"><?php echo $tempschname;?></option>
                                 <?php
                                 	}
-                                } else {
-                                ?>
-                                  <h1 style="margin-left:25%">You Have Not Applied To Any Scholarship</h1>
-                                  <form name="gotoapply" action="tempUserApply.php" style="margin-left:33%">
-                                    <input type="submit" value="Search For Scholarship" />
-                                  </form>
-                                <?php
                                 }
                                 ?>
                                   </select>
@@ -150,12 +143,12 @@ foreach ($rows9 as $key => $value)
                                   		<th style="width:10%">Application ID</th>
                                   		<th style="width:40%">Scholarship</th>
                                   		<th style="width:10%">Signatory Approval</th>
-                                  		<th style="width:10%">App Status</th>
+                                  		<th style="width:10%">Status</th>
                                 	</tr>
                             	</thead>
                             	<tbody>
                                 	<?php
-                                  	$queryScholarship = "SELECT A.applicationID, S.schname, A.verifiedBySignatory, A.appstatus  FROM application A join scholarship S on A.scholarshipID = S.scholarshipID WHERE A.studentID = $currentUserID AND A.scholarshipID=$tempschid";
+                                  	$queryScholarship = "SELECT A.applicationID, S.schname, A.verifiedBySignatory, A.status  FROM application A join scholarship S on A.scholarshipID = S.scholarshipID WHERE A.studentID = $_SESSION[currentUserID] AND A.scholarshipID=$tempschid";
                                   	$qSchoResult = mysqli_query($conn, $queryScholarship);
 
                                   	while($rows=mysqli_fetch_row($qSchoResult))
@@ -175,9 +168,10 @@ foreach ($rows9 as $key => $value)
 	                                      	}
 	                                      	if($key == 3){
 	                                      	?>
-                                        </td><td><?php echo $value;?></td></tr><?php
-                                    	  }
+	                                      		</td><td><?php echo $value;
+	                                      	}
                                     	}
+
                                   	}
                                 	?>
                             	</tbody>
@@ -186,6 +180,73 @@ foreach ($rows9 as $key => $value)
 					</div>
 				</section>
 
+        <section class="wrapper style1 container special">
+            <div class="row">
+
+              <div class="4u 12u(narrower)">
+                <section>
+                  <header>
+                    <h3>STATE WISE SCHOLARSHIPS</h3>
+                  </header>
+                  <footer style="padding-left: 50px; text-align: left;">
+                    <ul>
+                      <li><a href="#">Top Scholarships of Gujarat</a></li>
+                      <li><a href="#">Top Scholarships of Maharashtra</a></li>
+                      <li><a href="#">Top Scholarships of Uttar Pradesh</a></li>
+                      <li><a href="#">Top Scholarships of Punjab</a></li>
+                      <li><a href="#">Top Scholarships of Chennai</a></li>
+                      <li><a href="#">Top Scholarships of Delhi</a></li>
+                      <li><a href="#">Top Scholarships of Madhya Pradesh</a></li>
+                      <li><a href="#">Top Scholarships of Andhra Pradesh</a></li>
+                    </ul>
+                  </footer>
+                </section>
+              </div>
+
+              <div class="4u 12u(narrower)">
+                <section>
+                  <header>
+                    <h3>CURRENT CLASS SCHOLARSHIPS</h3>
+                  </header>
+                  <footer style="padding-left: 50px; text-align: left;">
+                    <ul>
+                      <li><a href="#">Top Scholarships for Class 1 to 10</a></li>
+                      <li><a href="#">Top Scholarships for Class 11, 12</a></li>
+                      <li><a href="#">Top Scholarships for Class 12 passed</a></li>
+                      <li><a href="#">Top Scholarships for Graduation</a></li>
+                      <li><a href="#">Top Scholarships for Post-Graduation</a></li>
+                      <li><a href="#">Top Scholarships for PhD</a></li>
+                      <li><a href="#">Top Scholarships for Diploma</a></li>
+                      <li><a href="#">Top Scholarships for Certifications</a></li>
+                    </ul>
+                  </footer>
+                </section>
+              </div>
+
+              <div class="4u 12u(narrower)">
+                <section>
+                  <header>
+                    <h3>TYPE BASED SCHOLARSHIPS</h3>
+                  </header>
+                  <footer style="padding-left: 50px; text-align: left;">
+                    <ul>
+                      <li><a href="#">Top Scholarships for Girls/Women</a></li>
+                      <li><a href="#">Top Scholarships based on Merit</a></li>
+                      <li><a href="#">Top Scholarships based on Means</a></li>
+                      <li><a href="#">Top Scholarships for Minorities</a></li>
+                      <li><a href="#">Top Scholarships based on Talent</a></li>
+                      <li><a href="#">Top Government Scholarships</a></li>
+                      <li><a href="#">Top Scholarships for MBBS Students</a></li>
+                      <li><a href="#">Top Scholarships for Engineers</a></li>
+
+                    </ul>
+                  </footer>
+                </section>
+              </div>
+
+            </div>
+          </section>
+      
 			<!-- TWO
 				<section class="wrapper style1 container special">
 					<div class="row">

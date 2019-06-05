@@ -89,7 +89,7 @@ foreach ($rows9 as $key => $value)
 
           <!-- One -->
           <section class="wrapper style4 container">
-                          <h1 style="padding-left: 40%"><strong>Apply for Scholarship</strong></h1>
+                          <h1>Apply for Scholarship</h1>
                           <h1>Select Filters</h1>
                           <table>
                             <thead>

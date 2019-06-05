@@ -8,10 +8,10 @@
     header("Location:index.php");
   }
 
-  // Connect to database
+  // Connect to database 
     $conn = new mysqli("localhost:3309","root","","sms");
-
-  // Checks Connection
+  
+  // Checks Connection 
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
@@ -29,19 +29,19 @@ foreach ($rows9 as $key => $value)
 			$_SESSION['currentUserName'] = $value;
 		}
 
-
+		
 		if($key == 1)
 		{
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
 		}
 
-
+		
 	    if($key == 2)
-	    {
+	    {                                	
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
 		}
 	}
-}
+}  
 ?>
 <!DOCTYPE HTML>
 
@@ -84,7 +84,6 @@ foreach ($rows9 as $key => $value)
           <nav id = "nav">
             <ul>
               <li ><a href = "tempSigHome.php">Home</a></li>
-              <li><a href = "tempSigProfile.php">User Profile</a></li>
                <li class = "submenu">
                 <a href = "#">Scholarships</a>
                 <ul>
@@ -122,11 +121,11 @@ foreach ($rows9 as $key => $value)
                             <?php
                            		$sql="SELECT scholarshipID,schname FROM scholarship where sigID=$currentUserID";
 					                     $result = mysqli_query($conn,$sql);
-                             ?>
+                             ?>	
                               <label style="margin-left: 20%"><h2><b>Select Your Scholarship</b></h2></label>
-                              <div class="col-sm-10">
-                               <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" name="login" >
-                                <select name="class" id="class" onchange="viewcontent()" style="padding-top: 1%;padding-bottom: 1%;padding-right: 3%" style="display: inline;">
+                              <div class="col-sm-10"> 
+                               <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" name="login" > 
+                                <select name="class" id="class" onchange="viewcontent()" style="padding-top: 1%;padding-bottom: 1%" style="display: inline;">
 
                                     <option value="select" selected>Select</option>
                             	<?php
@@ -136,10 +135,10 @@ foreach ($rows9 as $key => $value)
               											{
               												$tempschid = $value;
               											}
-
+              											
               											if($key == 1)
               											{
-                            	?>
+                            	?>	
                                     		<option value="<?php echo $tempschid;?>"><?php echo $value;?></option>
                                 <?php
                                 			}
@@ -147,33 +146,34 @@ foreach ($rows9 as $key => $value)
                                 	}
                                 ?>
                                   </select>
-                                  <input type="submit" id="apply" name="apply" value="Select Scholarship" style="margin-left: 1%;float:inherit">
+                                  <input type="submit" id="apply" name="apply" value="Select Scholarship" style="margin-left: 1%;">
                                 </form>
                               </div>
                             </div>
                             <br><br>
-                      <?php
-                        if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST'){
-                      ?>
+                      <?php      
+                        if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST'){ 
+                      ?> 
                             <section id="application">
-                            	<?php
+                            	<?php 
                               if($_POST['class']!='select'){
                                 $id=$_POST['class'];
                               }
-                            	?><br/>
+                            	echo $id;
+                            	?>
 							<h1><strong>Applications of Scholarship ID: <?php echo $id;?> </strong></h1>
-
+							
                           	<table class="table table-bordered">
                             	<thead>
                                 	<tr>
                                   		<th style="width:3%">Application ID</th>
                                   		<th style="width:3%">Student ID</th>
                                       <th style="width:3%">Scholarship ID</th>
-                                  		<th style="width:3%">Status</th>
+                                  		<th style="width:3%">Status</th>                                  		
                                   		<th style="width:3%">Verified By Signatory</th>
                                   		<th style="width:3%"></th>
                                   		<th style="width:3%"></th>
-                                  		<th style="width:3%"></th>
+                                  		<th style="width:3%"></th>                                  		                                  		                                  		
                                 	</tr>
                             	</thead>
                             	<tbody>
@@ -183,17 +183,17 @@ foreach ($rows9 as $key => $value)
 
                                   	while($rows=mysqli_fetch_row($qSchoResult))
                                   	{
-
+                                  		
                                     	foreach($rows as $key => $value){
 	                                      	if ($key == 0){
-	                                        	?> <tr ><td>
+	                                        	?> <tr ><td> 
                                               <?php
-                                                $appID=$value;
+                                                $appID=$value; 
                                                 echo $value;
 	                                      	}
 	                                      	if ($key == 1){
 	                                        	?> </td><td>
-                                              <?php
+                                              <?php 
                                                 $studentID=$value;
                                                 echo $value;
 	                                      	}
@@ -208,25 +208,25 @@ foreach ($rows9 as $key => $value)
                                              <?php echo $value;
 	                                      	}
 	                                      	if($key == 5){
-	                                      		?></td><td><?php echo $value;
+	                                      		?></td><td><?php echo $value;	                                      		
 	                                      	}
                                     	}
                                     	?></td><td>
-
+                                        
                                     		<form action="backend/sigAcceptReject.php" method="post">
                                           <input type="hidden" name="appID" value="<?php echo $appID; ?>">
                                           <button name="accrej" value="Accept">Approve</button>
                                         </form>
 
                                         </td><td>
-
+                                    		
                                         <form action="backend/sigAcceptReject.php" method="post">
                                           <input type="hidden" name="appID" value="<?php echo $appID; ?>">
                                           <button name="accrej" value="Reject">Reject</button>
                                         </form>
 
                                     		</td><td>
-
+                                    		
                                         <form action="sigAppView.php" method="post">
                                           <input type="hidden" name="appID" value="<?php echo $appID; ?>">
                                            <input type="hidden" name="schID" value="<?php echo $schID; ?>">
@@ -237,7 +237,7 @@ foreach ($rows9 as $key => $value)
                                     		</td>
                                     	<?php
                                   	}
-                                	?>
+                                	?>		                                			                                
                             	</tbody>
                           	</table>
 						</section>

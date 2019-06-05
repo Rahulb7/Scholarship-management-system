@@ -2,7 +2,7 @@
 
   session_start();
 
-
+  
 
 	 //check validity of the user
   $currentUserID=$_SESSION['currentUserID'];
@@ -10,10 +10,10 @@
     header("Location:index.php");
   }
 
-  // Connect to database
+  // Connect to database 
     $conn = new mysqli("localhost:3309","root","","sms");
-
-  // Checks Connection
+  
+  // Checks Connection 
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
@@ -31,19 +31,19 @@ foreach ($rows9 as $key => $value)
 			$_SESSION['currentUserName'] = $value;
 		}
 
-
+		
 		if($key == 1)
 		{
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
 		}
 
-
+		
 	    if($key == 2)
-	    {
+	    {                                	
 			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
 		}
 	}
-}
+}  
 ?>
 <!DOCTYPE HTML>
 
@@ -81,7 +81,7 @@ foreach ($rows9 as $key => $value)
                   return false;
               }
               else{ }
-          }
+          } 
           </script>
 
     <div id = "page-wrapper">
@@ -92,7 +92,6 @@ foreach ($rows9 as $key => $value)
           <nav id = "nav">
             <ul>
               <li ><a href = "tempSigHome.php">Home</a></li>
-              <li><a href = "tempSigProfile.php">User Profile</a></li>
                <li class = "current submenu">
                 <a href = "#">Scholarships</a>
                 <ul>
@@ -128,13 +127,13 @@ foreach ($rows9 as $key => $value)
 							<!-- Content -->
 								<div class="content">
 									<section>
-
+										
 										<header>
 											<h2 style="padding-left: 36%;"><strong><u>Add your Scholarship</u></strong></h2>
 										</header>
-
+                         
                          				<form method = "post" name = "scholarshiplist" id = "scholarshiplist" action = "backend/adminAddDelSch.php" enctype="multipart/form-data">
-
+								
 				                            <label><strong>Scholarship Name</strong></label><br>
 				                            <label style="font-size: 15px;">This will be displayed and used for searching your scholarship</label>
 				                            <br><input type = "text" name = "schname" placeholder="Eg:Joint Japan/World Bank Graduate Scholarship Program 2019" required>
@@ -143,8 +142,8 @@ foreach ($rows9 as $key => $value)
 								            <label><strong>Locations</strong></label><br>
 				                            <label style="font-size: 15px;">In which states or regions do the students need to study to be able to receive the scholarship?</label>
 				                            <br><input type = "text" name = "schlocation" placeholder="Select one or multiple">
-				                            <br><br>
-
+				                            <br><br>				                            
+				                            
 				                            <label><strong>Locations From</strong></label><br>
 				                            <label style="font-size: 15px;">Is this scholarship specific for students from a specific state or region?</label>
 				                            <br><input type = "text" name = "schlocationfrom" placeholder="Select one or multiple">
@@ -176,10 +175,10 @@ foreach ($rows9 as $key => $value)
 				                            <label><strong>Gender</strong></label><br>
 				                            <label style="font-size: 15px;">This is a scholarship for a particular gender ...</label><br>
 				                            <select name="gender" style="padding-top: 10px;padding-bottom: 10px; padding-left: 5%">
-			                                    <option value="select" selected>Select</option>
+			                                    <option value="select" selected>Select</option>                                    
 			                                    <option value="male">Male</option>
 			                                    <option value="female">Female</option>
-			                                    <option value="male+female">Both</option>
+			                                    <option value="both">Both</option>
 			                                    <option value="transgender">Transgender</option>
 			                                </select>
 			                                <br><br><br>
@@ -193,19 +192,19 @@ foreach ($rows9 as $key => $value)
 				                            <input type="checkbox" name="religion[]" value="Muslim">Muslim<br>
 				                            <input type="checkbox" name="religion[]" value="Parsi">Parsi<br>
 				                            <input type="checkbox" name="religion[]" value="Sikh">Sikh<br>
-											<br><br>
+											<br><br>					                                
 
 											<label><strong>Scholarship type</strong></label><br>
 				                            <label style="font-size: 15px;">Selct any Type of Scholarship from Below ...</label><br>
 				                            <select name="scholarship" style="padding-top: 10px;padding-bottom: 10px; padding-left: 10%">
 			                                    <option value="select" selected>Select</option>
-			                                    <option value="merit_based">Merit Based</option>
-			                                    <option value="means_based">Means Based</option>
-			                                    <option value="cultural_talent">Cultural Talent</option>
-			                                    <option value="visual_art">Visual Art</option>
-			                                    <option value="sports_talent">Sports Talent</option>
-			                                    <option value="science_maths_based">Science, Maths Based</option>
-			                                    <option value="technology_based">Technology Based</option>
+			                                    <option value="merit">Merit Based</option>
+			                                    <option value="mean">Means Based</option>
+			                                    <option value="cultural">Cultural Talent</option>
+			                                    <option value="visual">Visual Art</option>
+			                                    <option value="sport">Sports Talent</option>
+			                                    <option value="science">Science, Maths Based</option>
+			                                    <option value="tech">Technology Based</option>
 			                                  </select>
 			                                <br><br><br>
 
@@ -258,16 +257,16 @@ foreach ($rows9 as $key => $value)
 				                            <label style="font-size: 15px;">Provide a soft copy of your scholarship so as to validate your scholarship.</label>
 				                            <br>
 				                            <input type="file" name="validate" id="validate" onchange=" return fileValidation('validate')" required><br>
-
+				                        	
 				                            <br><br>
-
+  
 				                            <input type="hidden" name="adminapproval" value="Pending">
 
                             				<div class = "text-center">
                             					<input type = "submit" name = "deladd" value = "Submit Scholarship >">
 											</div>
 										</form>
-
+								
 										<br>
 										<div class = "text-center">
 											<form action = "tempSigScholarship.php">
@@ -320,7 +319,7 @@ foreach ($rows9 as $key => $value)
       }
     }
 
-    </script>
+    </script> 
 
 
 	</body>

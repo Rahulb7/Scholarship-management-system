@@ -3,22 +3,22 @@
   $_SESSION['selectedAppID'] = 0;
   $_SESSION['currentUserName'] = NULL;
   $_SESSION['appList'] = NULL;
-  
+
   //check validity of the user
   $currentUserID=$_SESSION['currentUserID'];
   if($currentUserID==NULL){
     header("Location:index.php");
   }
 
-  // Connect to database 
+  // Connect to database
     $conn = new mysqli("localhost","root","","sms");
 
-  // Checks Connection 
+  // Checks Connection
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
-    
-    //Getting Name 
+
+    //Getting Name
     $getName = "select S.firstName, S.middleName, S.lastName from student S where S.studentID = '".$_SESSION['currentUserID']."'";
     $nameResult = mysqli_query($conn,$getName);
     while($rows9=mysqli_fetch_row($nameResult)){
@@ -29,13 +29,13 @@
         if($key == 1){
           $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
         }
-        if($key == 2){                                  
+        if($key == 2){
           $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
         }
       }
     }
 
-  
+
   $upMail=$firstName=$lastName=$middleName=$nationality=$gender=$birthPlace=$presStreetAddr=$presProvCity=$presRegion=$permProvCity=$permStreetAddr=$permRegion=$contactNo=$dept=$college=$birthDate= NULL;
   //Get User Details
   $sql = "SELECT * FROM student WHERE studentID = '".$_SESSION['currentUserID']."'";
@@ -73,7 +73,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
 
-  
+
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -113,14 +113,14 @@
 
               <!-- Content -->
                 <div class="content">
-                  <section> 
-                    
+                  <section>
+
                   <header><h1><b style="margin: 10% 0% 0% 42%;">User Profile</b></h1></header>
-                            <!-- Compare user details --> 
+                            <!-- Compare user details -->
                         <div id="display">
                           <form method="post" action="backend/userdata.php" class="form-horizontal" role="form">
-                            
-                            <?php if($upMail==NULL || $upMail==""){} else{ ?> 
+
+                            <?php if($upMail==NULL || $upMail==""){} else{ ?>
                               <div class="form-group">
                                 <label class="control-label col-sm-2" for="upMail">Email:</label>
                                 <div class="col-sm-10">
@@ -128,8 +128,8 @@
                                 </div>
                               </div>
                             <?php } ?>
-                           
-                            <?php if($lastName==NULL || $lastName==""){} else{ ?> 
+
+                            <?php if($lastName==NULL || $lastName==""){} else{ ?>
                               <div class="form-group">
                                 <label class="control-label col-sm-2" for="lastName">Last Name:</label>
                                 <div class="col-sm-10">
@@ -137,144 +137,144 @@
                                 </div>
                               </div>
                             <?php } ?>
-                           
-                            <?php if($firstName ==NULL || $firstName ==""){} else{ ?> 
+
+                            <?php if($firstName ==NULL || $firstName ==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="firstName">First Name:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $firstName?>" disabled>
                               </div>
                             </div>
                             <?php } ?>
 
-                            <?php if($middleName ==NULL || $middleName==""){} else{ ?> 
+                            <?php if($middleName ==NULL || $middleName==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="middleName">Middle Name:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $middleName?>" disabled>
                               </div>
                             </div>
                             <?php } ?>
 
-                            <?php if($nationality==NULL || $nationality==""){} else{ ?> 
+                            <?php if($nationality==NULL || $nationality==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="nationality">Nationality:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $nationality?>" disabled>
                               </div>
-                            </div> 
+                            </div>
                             <?php } ?>
 
-                            <?php if($gender==NULL || $gender==""){} else{ ?> 
+                            <?php if($gender==NULL || $gender==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="gender">Gender:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $gender?>" disabled>
                               </div>
-                            </div> 
+                            </div>
                             <?php } ?>
 
-                            <?php if($birthDate==NULL || $birthDate=="0000-00-00"){} else{ ?> 
+                            <?php if($birthDate==NULL || $birthDate=="0000-00-00"){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="birthDate">Birthdate:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="date" class="form-control" value="<?php echo $birthDate?>" disabled>
                               </div>
                             </div>
                             <?php } ?>
 
-                            <?php if($birthPlace==NULL || $birthPlace==""){} else{ ?> 
+                            <?php if($birthPlace==NULL || $birthPlace==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="birthPlace">Birthplace:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $birthPlace?>" disabled>
                               </div>
                             </div>
                             <?php } ?>
 
-                            <?php if($presStreetAddr==NULL || $presStreetAddr==""){} else{ ?> 
+                            <?php if($presStreetAddr==NULL || $presStreetAddr==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presStreetAddr">Present Street Address:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $presStreetAddr?>" disabled>
                               </div>
-                            </div> 
+                            </div>
                             <?php } ?>
 
-                            <?php if($presProvCity==NULL || $presProvCity==""){} else{ ?> 
+                            <?php if($presProvCity==NULL || $presProvCity==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presProvCity">Present City:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $presProvCity?>" disabled>
                               </div>
                             </div>
                             <?php } ?>
 
-                            <?php if($presRegion==NULL || $presRegion==""){} else{ ?> 
+                            <?php if($presRegion==NULL || $presRegion==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presRegion">Present Region:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $presRegion?>" disabled>
                               </div>
-                            </div> 
-                            <?php } ?>     
+                            </div>
+                            <?php } ?>
 
-                            <?php if($permStreetAddr==NULL || $permStreetAddr==""){} else{ ?> 
+                            <?php if($permStreetAddr==NULL || $permStreetAddr==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permStreetAddr">Permanent Street Address:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $permStreetAddr?>" disabled>
                               </div>
-                            </div> 
-                            <?php } ?>    
+                            </div>
+                            <?php } ?>
 
-                            <?php if($permProvCity==NULL || $permProvCity==""){} else{ ?> 
+                            <?php if($permProvCity==NULL || $permProvCity==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permProvCity">Permanent City:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $permProvCity?>" disabled>
                               </div>
-                            </div> 
+                            </div>
                             <?php } ?>
 
-                            <?php if($permRegion==NULL || $permRegion==""){} else{ ?> 
+                            <?php if($permRegion==NULL || $permRegion==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permRegion">Permanent Region:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $permRegion?>" disabled>
                               </div>
-                            </div> 
+                            </div>
                             <?php } ?>
 
-                            <?php if($contactNo==NULL || $contactNo=="0"){} else{ ?> 
+                            <?php if($contactNo==NULL || $contactNo=="0"){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="contactNo">Contact Number:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $contactNo?>" disabled>
                               </div>
-                            </div> 
+                            </div>
                             <?php } ?>
 
-                            <?php if($dept==NULL || $dept==""){} else{ ?> 
+                            <?php if($dept==NULL || $dept==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="dept">Department:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $dept?>"disabled>
                               </div>
-                            </div> 
+                            </div>
                             <?php } ?>
 
-                            <?php if($college==NULL || $college==""){} else{ ?> 
+                            <?php if($college==NULL || $college==""){} else{ ?>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="college">College:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" value="<?php echo $college?>" disabled>
                               </div>
-                            </div>  
+                            </div>
                             <?php } ?>
-                            
-                            <!--                                                                                                                  
-                            <div class="form-group"> 
+
+                            <!--
+                            <div class="form-group">
                               <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-default" id="submit" style="display: none;">Submit</button>
                               </div>
@@ -282,14 +282,14 @@
 
                           -->
                           </form>
-                          <button id="showDivButton" style="margin:2% 0% 3% 42%;" type="button" class="btn btn-primary">Edit User Profile</button> 
+                          <button id="showDivButton" style="margin:2% 0% 3% 42%;" type="button" class="btn btn-primary">Edit User Profile</button>
                       </div>
 
                       <div id="editDiv" style="display:none">
                           <form method="POST" action="backend/userdata.php" class="form-horizontal" role="form">
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="firstName">Email:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="email" class="form-control" value="<?php echo $upMail ?>" disabled>
                               </div>
                             </div>
@@ -301,96 +301,96 @@
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="firstName">First Name:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="firstName" value="<?php echo $firstName?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="middleName">Middle Name:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="middleName" value="<?php echo $middleName?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="nationality">Nationality:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="nationality" value="<?php echo $nationality?>">
                               </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="gender">Gender:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="gender" value="<?php echo $gender?>">
                               </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="birthDate">Birthdate:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="date" class="form-control" name="birthDate" value="<?php echo $birthDate?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="birthPlace">Birthplace:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="birthPlace" value="<?php echo $birthPlace?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presStreetAddr">Present Street Address:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="presStreetAddr" value="<?php echo $presStreetAddr?>" >
                               </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presProvCity">Present City:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="presProvCity" value="<?php echo $presProvCity?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="presRegion">Present Region:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="presRegion" value="<?php echo $presRegion?>">
                               </div>
-                            </div>      
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permStreetAddr">Permanent Street Address:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="permStreetAddr" value="<?php echo $permStreetAddr?>">
                               </div>
-                            </div>     
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permProvCity">Permanent City:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="permProvCity" value="<?php echo $permProvCity?>">
                               </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="permRegion">Permanent Region:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="permRegion" value="<?php echo $permRegion?>" >
                               </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="contactNo">Contact Number:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="contactNo" value="<?php if($contactNo!='0') { echo $contactNo; } ?>">
                               </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="dept">Department:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="dept" value="<?php echo $dept ?>">
                               </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="college">College:</label>
-                              <div class="col-sm-10"> 
+                              <div class="col-sm-10">
                                 <input type="name" class="form-control" name="college" value="<?php echo $college?>">
                               </div>
-                            </div>  
-                                                                                                                                              
-                            <div class="form-group"> 
+                            </div>
+
+                            <div class="form-group">
                               <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-default" style="margin:2% 0% 3% 42%;">Submit</button>
                               </div>
@@ -403,8 +403,76 @@
 
             </section>
 
+            <section class="wrapper style1 container special">
+                <div class="row">
+
+                  <div class="4u 12u(narrower)">
+                    <section>
+                      <header>
+                        <h3>STATE WISE SCHOLARSHIPS</h3>
+                      </header>
+                      <footer style="padding-left: 50px; text-align: left;">
+                        <ul>
+                          <li><a href="#">Top Scholarships of Gujarat</a></li>
+                          <li><a href="#">Top Scholarships of Maharashtra</a></li>
+                          <li><a href="#">Top Scholarships of Uttar Pradesh</a></li>
+                          <li><a href="#">Top Scholarships of Punjab</a></li>
+                          <li><a href="#">Top Scholarships of Chennai</a></li>
+                          <li><a href="#">Top Scholarships of Delhi</a></li>
+                          <li><a href="#">Top Scholarships of Madhya Pradesh</a></li>
+                          <li><a href="#">Top Scholarships of Andhra Pradesh</a></li>
+                        </ul>
+                      </footer>
+                    </section>
+                  </div>
+
+                  <div class="4u 12u(narrower)">
+                    <section>
+                      <header>
+                        <h3>CURRENT CLASS SCHOLARSHIPS</h3>
+                      </header>
+                      <footer style="padding-left: 50px; text-align: left;">
+                        <ul>
+                          <li><a href="#">Top Scholarships for Class 1 to 10</a></li>
+                          <li><a href="#">Top Scholarships for Class 11, 12</a></li>
+                          <li><a href="#">Top Scholarships for Class 12 passed</a></li>
+                          <li><a href="#">Top Scholarships for Graduation</a></li>
+                          <li><a href="#">Top Scholarships for Post-Graduation</a></li>
+                          <li><a href="#">Top Scholarships for PhD</a></li>
+                          <li><a href="#">Top Scholarships for Diploma</a></li>
+                          <li><a href="#">Top Scholarships for Certifications</a></li>
+                        </ul>
+                      </footer>
+                    </section>
+                  </div>
+
+                  <div class="4u 12u(narrower)">
+                    <section>
+                      <header>
+                        <h3>TYPE BASED SCHOLARSHIPS</h3>
+                      </header>
+                      <footer style="padding-left: 50px; text-align: left;">
+                        <ul>
+                          <li><a href="#">Top Scholarships for Girls/Women</a></li>
+                          <li><a href="#">Top Scholarships based on Merit</a></li>
+                          <li><a href="#">Top Scholarships based on Means</a></li>
+                          <li><a href="#">Top Scholarships for Minorities</a></li>
+                          <li><a href="#">Top Scholarships based on Talent</a></li>
+                          <li><a href="#">Top Government Scholarships</a></li>
+                          <li><a href="#">Top Scholarships for MBBS Students</a></li>
+                          <li><a href="#">Top Scholarships for Engineers</a></li>
+
+                        </ul>
+                      </footer>
+                    </section>
+                  </div>
+
+                </div>
+              </section>
+
+          
           <!-- footer -->
-         
+
         </article>
 
       <!-- Footer -->
@@ -425,6 +493,8 @@
         </footer>
 
     </div>
+
+
 
     <!-- Scripts -->
       <script src="js/jquery.min.js"></script>
@@ -455,5 +525,3 @@
 
   </body>
 </html>
-
-
