@@ -70,7 +70,82 @@
 							<!-- Content -->
 								<div class="content">
 									<section>
-
+                    <h1 style="text-align:center; font-size:25px">Signatory Details</h1>
+                    <?php
+                      $conn = new mysqli("localhost","root","","sms");
+                      if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                      }
+                      $sql = "SELECT * FROM signatory";
+                      $result = $conn->query($sql);
+                      if ($result->num_rows > 0) {
+                        ?>
+                        <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th style="width:10%">Signatory ID</th>
+                                  <th style="width:16%">Email ID</th>
+                                  <th style="width:20%">Name</th>
+                                  <th style="width:20%">Organization/University</th>
+                                  <th style="width:10%">Status</th>
+                                  <th style="width:7%"></th>
+                                  <th style="width:7%"></th>
+                                  <th style="width:7%"></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                        <?php
+                          while($row = $result->fetch_assoc()) {
+                              $sigID =$row['sigID'];
+                              $email = $row['upMail'];
+                              $name = $row['firstName']." ".$row['lastName'];
+                              if($name == NULL || $name == ""){
+                                $name = "NULL";
+                              }
+                              $org = $row['organization/university'];
+                              $con = $row['contact'];
+                              $status = $row['status'];
+                          ?>
+                              <tr>
+                                <td><?php echo $sigID; ?></td>
+                                <td><?php echo $email; ?></td>
+                                <td><?php echo $name; ?></td>
+                                <td><?php echo $org; ?></td>
+                                <td><?php echo $status; ?></td>
+                                <td>
+                                  <form action="adminShowUser.php" method="post">
+                                    <input type="hidden" name="ID" value="<?php echo $sigID; ?>">
+                                    <button name="showUser" value="showSig">View</button>
+                                  </form>
+                                </td>
+                                <td>
+                                  <form name="blockform" method="post" onsubmit="confirmblock(this)" action="backend/adminBlockUser.php">
+                                    <input type="hidden" name="ID" value="<?php echo $sigID; ?>">
+                                    <button  name="blockUser" id="blockUserbtn" value="blockSig" <?php if($row['status'] === "inactive"){
+                                      echo "disabled";
+                                      echo " style = 'color:#fff'";
+                                    } ?>>Block</button>
+                                  </form>
+                                </td>
+                                <td>
+                                  <form name="unblockform" action="backend/adminUnblockUser.php" onsubmit="confirmunblock(this)"  method="post">
+                                    <input type="hidden" name="ID" value="<?php echo $sigID; ?>">
+                                    <button name="unblockUser" id="unblockUserbtn" value="unblockSig" <?php if($row['status'] === "active"){
+                                      echo "disabled";
+                                      echo " style = 'color:#fff'";
+                                    } ?>>UnBlock</button>
+                                  </form>
+                                </td>
+                              </tr>
+                          <?php } ?>
+                        </tbody>
+                      </table>
+                      <?php
+                        } else {
+                            echo "No result";
+                        }
+                        $conn->close();
+                    ?>
 
 									</section>
 								</div>
@@ -149,6 +224,23 @@
 		</div>
 
 		<!-- Scripts -->
+
+    <script type="text/javascript">
+      function confirmblock(form){
+        if(confirm("This will Block Signatory, the Scholarships corresponding to them as well as All Applications.\n Are your Sure?")){
+          document.blockform.submit();
+        } else{
+          event.preventDefault();
+        }
+      }
+      function confirmunblock(form){
+        if(confirm("This will Unblock Signatory, the Scholarships corresponding to them as well as All Applications.\n Are your Sure?")){
+          document.unblockform.submit();
+        } else{
+          event.preventDefault();
+        }
+      }
+    </script>
       <script src="js/jquery.min.js"></script>
       <script src="js/jquery.dropotron.min.js"></script>
       <script src="js/jquery.scrolly.min.js"></script>

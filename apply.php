@@ -1,5 +1,5 @@
 <?php
-   
+
 ?>
 <?php
   session_start();
@@ -13,10 +13,10 @@
     header("Location:index.php");
   }
 
-  // Connect to database 
+  // Connect to database
     $conn = new mysqli("localhost","root","","sms");
 
-  // Checks Connection 
+  // Checks Connection
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
@@ -34,7 +34,7 @@
     		if($key == 1){
     			$_SESSION['currentUserName'] = $_SESSION['currentUserName'] . " " . $value;
     		}
-        if($key == 2){                                	
+        if($key == 2){
           $_SESSION['currentUserName'] = $_SESSION['currentUserName'] . ". " . $value;
   		  }
 	    }
@@ -53,7 +53,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
 
-  
+
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -69,7 +69,7 @@
         <header id = "header">
           <h1 id = "logo"><a href = "tempUserHome.php">Scholarships <span>that matter</span></a></h1>
           <nav id = "nav">
-            <ul>  
+            <ul>
               <li><a href = "tempUserHome.php">Home</a></li>
               <li><a href = "tempUserProfile.php">User Profile</a></li>
               <li class = "current"><a href = "#">Apply</a></li>
@@ -88,11 +88,13 @@
 
           <!-- One -->
           <section class="wrapper style4 container">
-          
-          <?php 
+
+          <?php
           	$conn = new mysqli("localhost","root","","sms");
             $schid=$_SESSION["schid"];
-    		    $sql="SELECT * FROM application where scholarshipID=$schid AND studentID=$currentUserID";
+            $sigID = $_POST['sigID'];
+            $_SESSION['sigID'] = $sigID;
+    		    $sql="SELECT * FROM application where scholarshipID=$schid AND studentID=$currentUserID AND sigID = $sigID";
     		    $result = $conn->query($sql);
     			  if($result->num_rows > 0){
                	while($row = $result->fetch_assoc()){
@@ -100,9 +102,9 @@
              <script type="text/javascript">
               alert("You Have Already Applied for this scholarship!");
               location.replace("tempUserView.php")
-            </script>      
+            </script>
 
-           <?php			
+           <?php
       			   }
     		    }
             else{
@@ -113,14 +115,14 @@
                   <input type="submit" id="apply" name="apply" value="Check Your Profile Here >>" title="User Profile" formaction="tempUserProfile.php">
                     &nbsp;&nbsp;&nbsp;
                     <input type="submit" id="apply" name="apply" value="Continue Otherwise >>" title="Click here only if your Profile is Completed!!" formaction="applyprocess.php">
-                   
-                   </form> 
+
+                   </form>
             <?php
         }
     		$conn->close();
-            
+
             ?>
-            
+
             </section>
         </article>
         <!-- Footer -->
@@ -137,7 +139,7 @@
           <ul class="copyright">
             <li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
           </ul>
-        </footer>        
+        </footer>
     </div>
 
      <!-- Scripts -->

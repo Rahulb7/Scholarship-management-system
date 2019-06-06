@@ -123,67 +123,61 @@ foreach ($rows9 as $key => $value)
                            		$sql="SELECT scholarshipID,schname FROM scholarship where sigID=$currentUserID";
 					                     $result = mysqli_query($conn,$sql);
                              ?>
-                              <label style="margin-left: 20%"><h2><b>Select Your Scholarship</b></h2></label>
+                              <label style="margin-left: 30%"><h2><b>Select Your Scholarship</b></h2></label>
                               <div class="col-sm-10">
+                              <center>
                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" name="login" >
-                                <select name="class" id="class" onchange="viewcontent()" style="padding-top: 1%;padding-bottom: 1%;padding-right: 3%" style="display: inline;">
-
-                                    <option value="select" selected>Select</option>
+                                <select name="class" id="class" onchange="viewcontent()" style="padding-top:2%;padding-bottom:2%;padding-left:2%;display:block;">
+                                    <option value="select" selected><strong>Select Your Scholarship</strong></option>
                             	<?php
                             		while($rows9=mysqli_fetch_row($result)){
                             			foreach ($rows9 as $key => $value){
-	                            			if($key == 0)
-              											{
+	                            			if($key == 0){
               												$tempschid = $value;
               											}
-
-              											if($key == 1)
-              											{
+              											if($key == 1){
                             	?>
-                                    		<option value="<?php echo $tempschid;?>"><?php echo $value;?></option>
+                                  		<option value="<?php echo $tempschid;?>"><?php echo $value;?></option>
                                 <?php
                                 			}
                                 		}
                                 	}
                                 ?>
-                                  </select>
-                                  <input type="submit" id="apply" name="apply" value="Select Scholarship" style="margin-left: 1%;float:inherit">
+                              </select>
+                                  <input type="submit" id="apply" name="apply" value="Select Scholarship >>" style="margin-top:2%;float:inherit">
+                                  <input type="submit" id="showall" name="showall" value="<Show all>" style="margin-left:2%;margin-top:2%;float:inherit">
                                 </form>
+                              </center>
                               </div>
                             </div>
-                            <br><br>
+                            <br><br><br><br><br><br><br>
                       <?php
                         if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST'){
-                      ?>
-                            <section id="application">
-                            	<?php
-                              if($_POST['class']!='select'){
-                                $id=$_POST['class'];
-                              }
-                            	?><br/>
-							<h1><strong>Applications of Scholarship ID: <?php echo $id;?> </strong></h1>
+//DISPLAYING ALL APPS
+                          if(isset($_POST['showall']) AND $_POST['showall'] == '<Show all>'){
+                            ?>
 
-                          	<table class="table table-bordered">
+                            <section id="application">
+                            <h1><strong><center>Displaying All Applications</center> </strong></h1>
+                            <table class="table table-bordered">
                             	<thead>
                                 	<tr>
                                   		<th style="width:3%">Application ID</th>
                                   		<th style="width:3%">Student ID</th>
                                       <th style="width:3%">Scholarship ID</th>
-                                  		<th style="width:3%">Status</th>
-                                  		<th style="width:3%">Verified By Signatory</th>
-                                  		<th style="width:3%"></th>
-                                  		<th style="width:3%"></th>
-                                  		<th style="width:3%"></th>
+                                  		<th style="width:3%">App Date</th>
+                                      <th style="width:3%">Status</th>
+                                  		<th class = "col-md-1" style="width: 5%;text-align:center;font-size:26px" colspan="5"><strong>Action</strong> </th>
                                 	</tr>
                             	</thead>
                             	<tbody>
                                 	<?php
-                                  	$queryScholarship = "SELECT * FROM `application` WHERE `scholarshipID`=$id";
+                                  	$queryScholarship = "SELECT applicationID,studentID,scholarshipID,appDate,appstatus,verifiedBySignatory FROM `application` WHERE `sigID`=$currentUserID";
                                   	$qSchoResult = mysqli_query($conn, $queryScholarship);
 
                                   	while($rows=mysqli_fetch_row($qSchoResult))
                                   	{
-
+                                      $status = NULL;
                                     	foreach($rows as $key => $value){
 	                                      	if ($key == 0){
 	                                        	?> <tr ><td>
@@ -203,46 +197,211 @@ foreach ($rows9 as $key => $value)
                                               $schID=$value;
                                               echo $value;
                                           }
-	                                      	if ($key == 4){
+	                                      	if ($key == 3){
 	                                        	?> </td><td>
                                              <?php echo $value;
 	                                      	}
-	                                      	if($key == 5){
-	                                      		?></td><td><?php echo $value;
+	                                      	if ($key == 4){
+	                                        	?> </td><td>
+                                             <?php echo $value;
+                                             $status = $value;
+	                                      	}
+	                                      	if ($key == 5){
+	                                        	?>
+                                             <?php
+                                             $verifiedBySignatory = $value;
 	                                      	}
                                     	}
-                                    	?></td><td>
+                                    	?>
+
+                                    </td><td>
+
+                                      <form action="sigAppView.php" method="post">
+                                        <input type="hidden" name="appID" value="<?php echo $appID; ?>">
+                                         <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                        <input type="hidden" name="studentID" value="<?php echo $studentID; ?>">
+                                        <button name="view" value="View">View</button>
+                                      </form>
+
+                                      </td><td>
 
                                     		<form action="backend/sigAcceptReject.php" method="post">
                                           <input type="hidden" name="appID" value="<?php echo $appID; ?>">
-                                          <button name="accrej" value="Accept">Approve</button>
+                                          <button name="accrej" value="Accept" <?php if ($verifiedBySignatory == 'Approved'){
+                                            echo "disabled";
+                                            echo " style = 'color:#fff'";
+	                                      	} ?> >Approve</button>
                                         </form>
 
                                         </td><td>
 
                                         <form action="backend/sigAcceptReject.php" method="post">
                                           <input type="hidden" name="appID" value="<?php echo $appID; ?>">
-                                          <button name="accrej" value="Reject">Reject</button>
+                                          <button name="accrej" value="Reject" <?php if ($verifiedBySignatory == 'Rejected'){
+                                            echo "disabled";
+                                            echo " style = 'color:#fff'";
+	                                      	} ?>>Reject</button>
                                         </form>
 
-                                    		</td><td>
+                                        </td><td>
 
-                                        <form action="sigAppView.php" method="post">
+                                        <form name="blockform" action="backend/sigBlockUnblockApp.php" method="post" onsubmit="confirmblock(this)">
                                           <input type="hidden" name="appID" value="<?php echo $appID; ?>">
-                                           <input type="hidden" name="schID" value="<?php echo $schID; ?>">
-                                          <input type="hidden" name="studentID" value="<?php echo $studentID; ?>">
-                                          <button name="view" value="View">View</button>
+                                          <button name="blk_unblk_app" value="blockapp" <?php if($status == 'inactive'){
+                                            echo "disabled";
+                                            echo " style = 'color:#fff'";
+	                                      	} ?>>Block</button>
                                         </form>
+
+                                      </td><td>
+
+                                      <form name="unblockform" action="backend/sigBlockUnblockApp.php" method="post" onsubmit="confirmunblock(this)">
+                                        <input type="hidden" name="appID" value="<?php echo $appID; ?>">
+                                        <button name="blk_unblk_app" value="unblockapp" <?php if($status != 'inactive'){
+                                          echo "disabled";
+                                          echo " style = 'color:#fff'";
+                                        } ?>>UnBlock</button>
+                                      </form>
 
                                     		</td>
+                                      </tr>
                                     	<?php
                                   	}
                                 	?>
                             	</tbody>
                           	</table>
-						</section>
-          <?php
-             }
+      						     </section> <?php
+                          } else{
+// Scholarship Based Apps
+                      ?>
+                            <section id="application">
+                            	<?php
+                              if($_POST['class']!='select'){
+                                $id=$_POST['class'];
+
+                            	?>
+							              <h1><strong><center>Applications of Scholarship ID: <?php echo $id;?></center> </strong></h1>
+                          	<table class="table table-bordered">
+                            	<thead>
+                                	<tr>
+                                  		<th style="width:3%">Application ID</th>
+                                  		<th style="width:3%">Student ID</th>
+                                      <th style="width:3%">Scholarship ID</th>
+                                  		<th style="width:3%">App Date</th>
+                                      <th style="width:3%">Status</th>
+                                  		<th class = "col-md-1" style="width: 5%;text-align:center;font-size:26px" colspan="5"><strong>Action</strong> </th>
+                                	</tr>
+                            	</thead>
+                            	<tbody>
+                                	<?php
+                                  	$queryScholarship = "SELECT applicationID,studentID,scholarshipID,appDate,appstatus,verifiedBySignatory FROM `application` WHERE `scholarshipID`=$id";
+                                  	$qSchoResult = mysqli_query($conn, $queryScholarship);
+
+                                  	while($rows=mysqli_fetch_row($qSchoResult))
+                                  	{
+                                      $status = NULL;
+                                    	foreach($rows as $key => $value){
+	                                      	if ($key == 0){
+	                                        	?> <tr ><td>
+                                              <?php
+                                                $appID=$value;
+                                                echo $value;
+	                                      	}
+	                                      	if ($key == 1){
+	                                        	?> </td><td>
+                                              <?php
+                                                $studentID=$value;
+                                                echo $value;
+	                                      	}
+                                          if ($key == 2){
+                                            ?> </td><td>
+                                             <?php
+                                              $schID=$value;
+                                              echo $value;
+                                          }
+	                                      	if ($key == 3){
+	                                        	?> </td><td>
+                                             <?php echo $value;
+	                                      	}
+	                                      	if ($key == 4){
+	                                        	?> </td><td>
+                                             <?php echo $value;
+                                             $status = $value;
+	                                      	}
+	                                      	if ($key == 5){
+	                                        	?>
+                                             <?php
+                                             $verifiedBySignatory = $value;
+	                                      	}
+                                    	}
+                                    	?>
+
+                                    </td><td>
+
+                                      <form action="sigAppView.php" method="post">
+                                        <input type="hidden" name="appID" value="<?php echo $appID; ?>">
+                                         <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                        <input type="hidden" name="studentID" value="<?php echo $studentID; ?>">
+                                        <button name="view" value="View">View</button>
+                                      </form>
+
+                                      </td><td>
+
+                                    		<form action="backend/sigAcceptReject.php" method="post">
+                                          <input type="hidden" name="appID" value="<?php echo $appID; ?>">
+                                          <button name="accrej" value="Accept" <?php if ($verifiedBySignatory == 'Approved'){
+                                            echo "disabled";
+                                            echo " style = 'color:#fff'";
+	                                      	} ?> >Approve</button>
+                                        </form>
+
+                                        </td><td>
+
+                                        <form action="backend/sigAcceptReject.php" method="post">
+                                          <input type="hidden" name="appID" value="<?php echo $appID; ?>">
+                                          <button name="accrej" value="Reject" <?php if ($verifiedBySignatory == 'Rejected'){
+                                            echo "disabled";
+                                            echo " style = 'color:#fff'";
+	                                      	} ?>>Reject</button>
+                                        </form>
+
+                                        </td><td>
+
+                                        <form name="blockform" action="backend/sigBlockUnblockApp.php" method="post" onsubmit="confirmblock(this)">
+                                          <input type="hidden" name="appID" value="<?php echo $appID; ?>">
+                                          <button name="blk_unblk_app" value="blockapp" <?php if($status == 'inactive'){
+                                            echo "disabled";
+                                            echo " style = 'color:#fff'";
+	                                      	} ?>>Block</button>
+                                        </form>
+
+                                      </td><td>
+
+                                      <form name="unblockform" action="backend/sigBlockUnblockApp.php" method="post" onsubmit="confirmunblock(this)">
+                                        <input type="hidden" name="appID" value="<?php echo $appID; ?>">
+                                        <button name="blk_unblk_app" value="unblockapp" <?php if($status != 'inactive'){
+                                          echo "disabled";
+                                          echo " style = 'color:#fff'";
+                                        } ?>>UnBlock</button>
+                                      </form>
+
+                                    		</td>
+                                      </tr>
+                                    	<?php
+                                  	}
+                                	?>
+                            	</tbody>
+                          	</table>
+                          <?php } else{ ?>
+                            <script type="text/javascript">
+                              alert('Please Select A Scholarship');
+                              location.replace('tempSigApplication.php');
+                            </script>
+                          <?php } ?>
+      						     </section>
+                <?php
+                   }
+                }
              mysqli_close($conn);
           ?>
 					</div>
@@ -268,6 +427,24 @@ foreach ($rows9 as $key => $value)
 		</div>
 
 		<!-- Scripts -->
+
+    <script type="text/javascript">
+      function confirmblock(form){
+        if(confirm("This will Block corresponding Application.\n Are your Sure?")){
+          document.blockform.submit();
+        } else{
+          event.preventDefault();
+        }
+      }
+      function confirmunblock(form){
+        if(confirm("This will Unblock corresponding Application.\n Are your Sure?")){
+          document.unblockform.submit();
+        } else{
+          event.preventDefault();
+        }
+      }
+    </script>
+
       <script src="js/jquery.min.js"></script>
       <script src="js/jquery.dropotron.min.js"></script>
       <script src="js/jquery.scrolly.min.js"></script>

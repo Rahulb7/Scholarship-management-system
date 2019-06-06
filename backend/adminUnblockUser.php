@@ -41,8 +41,46 @@
           }
 
 
-        } else if(isset($_POST['blockUser']) AND $_POST['blockUser'] == "blockSignatory"){
-          echo "Signatory";
+        } else if(isset($_POST['unblockUser']) AND $_POST['unblockUser'] == "unblockSig"){
+          $sigID = $_POST['ID'];
+          $sig_sql = "UPDATE signatory SET status = 'active' WHERE sigID = '$sigID'";
+          if ($conn->query($sig_sql) === TRUE) {
+            $sch_sql = "UPDATE scholarship SET  adminapproval = previous_adminapproval, schstatus = 'active' WHERE sigID = '$sigID'";
+            if ($conn->query($sch_sql) === TRUE) {
+                $app_sql = "UPDATE application SET appstatus = previous_appstatus, verifiedBySignatory = previous_verifiedBySignatory WHERE sigID = '$sigID'";
+                if ($conn->query($app_sql) === TRUE) {
+                  ?>
+                  <script type="text/javascript">
+                    alert('Successfully UnBlocked the Signatory, corresponding Scholarships and Applications');
+                    location.replace('../tempSignatoryShow.php');
+                  </script>
+                <?php
+                } else {
+                  ?>
+                    <script type="text/javascript">
+                      alert( "Unable to UnBlock Applications");
+                      location.replace('../tempSignatoryShow.php');
+                    </script>
+                  <?php
+                }
+            } else{
+              ?>
+                <script type="text/javascript">
+                  alert( "Unable to UnBlock Scholarships And Applications");
+                  location.replace('../tempSignatoryShow.php');
+                </script>
+              <?php
+            }
+          } else {
+          ?>
+            <script type="text/javascript">
+              alert( "Unable to UnBlock Signatory");
+              location.replace('../tempSignatoryShow.php');
+            </script>
+          <?php
+          }
+
+
         } else if(isset($_POST['blockUser']) AND $_POST['blockUser'] == "blockAdmin"){
           echo "Admin";
         } else{

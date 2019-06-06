@@ -221,14 +221,14 @@
 		<!-- Scripts -->
       <script type="text/javascript">
         function confirmblock(form){
-          if(confirm("This will Block Student as well as All his Applications.\n Are your Sure?")){
+          if(confirm("This will Block Student as well as All their Applications.\n Are your Sure?")){
             document.blockform.submit();
           } else{
             event.preventDefault();
           }
         }
         function confirmunblock(form){
-          if(confirm("This will unblock Student as well as All his Applications.\n Are your Sure?")){
+          if(confirm("This will unblock Student as well as All their Applications.\n Are your Sure?")){
             document.unblockform.submit();
           } else{
             event.preventDefault();

@@ -31,19 +31,6 @@
   </head>
 
   <body class = "no-sidebar">
-  	<script type="text/javascript">
-  		function viewcontent(){
-  			var selectone=document.getElementById("class").value;
-  			var schview=document.getElementById("application");
-  			if(selectone!="select"){
-  				document.getElementById("schid").innerHTML = selectone;
-  				schview.style.display = 'block';
-  			}
-  			else{
-  				schview.style.display = 'none';
-  			}
-  		}
-  	</script>
     <div id = "page-wrapper">
 
       <!-- Header -->
@@ -68,6 +55,14 @@
                   <li><a href = "tempScholarship.php?scholarship=Rejected">Rejected Scholarships</a></li>
                 </ul>
               </li>
+              <li class = "submenu">
+                <a href = "tempUsersShow.php">Users</a>
+                <ul>
+                  <li><a href = "tempAdminShow.php">Admin</a></li>
+                  <li><a href = "tempSignatoryShow.php">Signatory</a></li>
+                  <li><a href = "tempStudentShow.php">Students</a></li>
+                </ul>
+              </li>
               <li><a href = "backend/logout.php" class = "button special">Logout</a></li>
             </ul>
           </nav>
@@ -90,9 +85,19 @@
   							<h1><strong>Signatory ID :  <?php  echo $_POST['sigID']; ?> </strong></h1></span><hr style=" height: 1px;color: red;background-color: grey;border: none;">
             <?php
               try{
+                $adminapproval = NULL;
+                $status = NULL;
             		/*If the view button was clicked*/
             		if ($_POST['view'] == 'View'){
                   $schid = $_POST['schID'];
+                  $sql = "SELECT adminapproval,schstatus FROM scholarship WHERE scholarshipID = $schid";
+                  $result = $conn->query($sql);
+                  if($result->num_rows > 0){
+                    while($row = $result->fetch_assoc()){
+                      $adminapproval = $row['adminapproval'];
+                      $status = $row['schstatus'];
+                    }
+                  }
                   $xml=simplexml_load_file("backend/scholarship_data.xml") or die("Error: Cannot create object");
                   foreach($xml->children() as $sch){
                       if($sch['scholarshipID'] == $schid){
@@ -163,7 +168,12 @@
                           <br><hr><br><hr style=" height: 1px;color: red;background-color: grey;border: none;">
                           <section>
                             <h1><b>Contact Details</b></h1>
-                            <p><?php echo $contact; } } $conn->close(); ?></p>
+                            <p><?php echo $contact; ?></p>
+                          </section>
+                          <br><hr><br><hr style=" height: 1px;color: red;background-color: grey;border: none;">
+                          <section>
+                            <h1><b>Admin Approval</b></h1>
+                            <p><?php echo $adminapproval; } } $conn->close(); ?></p>
                           </section>
                           <br><hr><br><hr style=" height: 1px;color: red;background-color: grey;border: none;">
                         </div>
@@ -213,7 +223,7 @@
 					</tbody>
         </table>
 	<?php
-			}else {
+			} else {
 	?>
 			<script>
 				alert("Error! File View Failed!");
@@ -223,20 +233,32 @@
 			}
     ?>
     <br><br><hr style=" height: 1px;color: red;background-color: grey;border: none;">
-    <div class="wrapper" style="margin-left: 28%">
-    <form action="backend/adminAcceptReject.php" method="post">
-      <input type="hidden" name="schID" value="<?php echo $schid; ?>">
-      <input type="submit" name="accrej" value="Accept">
-    </form>
-    <br>
-    <form action="backend/adminAcceptReject.php" method="post">
-       <input type="hidden" name="schID" value="<?php echo $schid; ?>">
-       <input type="submit" name="accrej" value="Reject">
-    </form>
-    <br>
-    <form action="tempScholarship.php" method="post">
-       <input type="submit"  value="<< Go Back">
-    </form>
+    <div class="wrapper">
+      <form method="post" style="display:inline;">
+        <input type="hidden" name="schID" value="<?php echo $schid; ?>">
+        <input type="submit" name="accrej" value="Accept" formaction="backend/adminAcceptReject.php" style="margin-left:12%">
+        <input type="submit" name="accrej" value="Reject" formaction="backend/adminAcceptReject.php" style="margin-left:10%">
+      </form>
+      <br><br><br>
+      <form name="blockform"  action="backend/adminBlockUnblockSch.php" method="post" onsubmit="confirmblock(this,'This will Block the Scholarship and corresponding Applications.\n This wont Block the corresponding Signatory.\n Are your Sure?')">
+        <input type="hidden" name="schID" value="<?php echo $schid; ?>">
+        <input type="submit"  name="blk_unblk" id="blockSchbtn" value="blockScholarship" <?php if($status === "inactive"){
+          echo " style = 'color:#fff;display:none'";
+        }else{
+          echo "style = 'margin-left:32%;'";
+        } ?>>
+      </form>
+      <form name="unblockform" action="backend/adminBlockUnblockSch.php" onsubmit="confirmunblock(this,'This will Unblock the Scholarships and corresponding Applications.\n This wont Unblock the corresponding Signatory.\n Are your Sure?')"  method="post">
+        <input type="hidden" name="schID" value="<?php echo $schid; ?>">
+        <input type="submit" name="blk_unblk" id="unblockSchbtn" value="unblockScholarship" <?php if($status === "active"){
+          echo " style = 'color:#fff;display:none;'";
+        } else{
+          echo "style = 'margin-left:32%;'";
+        } ?>>
+      </form>
+      <form action="tempScholarship.php" method="post">
+         <br><input type="submit" style="margin-left:32%"  value="<< Go Back">
+      </form>
   </div>
     <?php
 		}
@@ -266,6 +288,36 @@
 		</div>
 
 		<!-- Scripts -->
+    <script type="text/javascript">
+
+    function viewcontent(){
+      var selectone=document.getElementById("class").value;
+      var schview=document.getElementById("application");
+      if(selectone!="select"){
+        document.getElementById("schid").innerHTML = selectone;
+        schview.style.display = 'block';
+      }
+      else{
+        schview.style.display = 'none';
+      }
+    }
+
+    function confirmblock(form,str){
+      if(confirm(str)){
+        document.blockform.submit();
+      } else{
+        event.preventDefault();
+      }
+    }
+
+    function confirmunblock(form,str){
+      if(confirm(str)){
+        document.unblockform.submit();
+      } else{
+        event.preventDefault();
+      }
+    }
+    </script>
       <script src="js/jquery.min.js"></script>
       <script src="js/jquery.dropotron.min.js"></script>
       <script src="js/jquery.scrolly.min.js"></script>

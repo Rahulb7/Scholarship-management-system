@@ -88,12 +88,11 @@
           <?php
             $conn = new mysqli("localhost","root","","sms");
             $schid=$_GET['sch'];
-            $_SESSION['schid']=$schid;
-
+            $sigID = NULL;
             $xml=simplexml_load_file("backend/scholarship_data.xml") or die("Error: Cannot create object");
             foreach($xml->children() as $sch){
                 if($sch['scholarshipID'] == $schid){
-                  $schID = $sch->sigID;
+                  $sigID = $sch->sigID;
                   $schname = $sch->schname;
                   $schlocation = $sch->schlocation;
                   $schlocationfrom = $sch->schlocationfrom;
@@ -157,7 +156,8 @@
                   </section>
                   <br><hr><br>
                   <form action="apply.php" method="post">
-                      <?php $_SESSION["id"]=$schid; ?>
+                      <?php $_SESSION['schid']=$schid; ?>
+                      <input type="hidden" name="sigID" value = "<?php echo $sigID; ?>">
                       <input type="submit" name="apply" value="Apply >>">
                   </form>
                 </div>

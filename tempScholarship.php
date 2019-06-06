@@ -95,21 +95,22 @@
 											<h3 style="padding-left: 33%;font-size:30px"><?php echo $scholarship; ?> Scholarships  </h3><br>
 										</header>
               				<?php
-				                  $sql = "SELECT scholarshipID, sigID, schname, appDeadline, description, adminapproval FROM scholarship ORDER BY `appDeadline` ASC "; //need to be ordered according to uploaded date.
+				                  $sql = "SELECT scholarshipID, sigID, schname, appDeadline, description, adminapproval, schstatus FROM scholarship ORDER BY `appDeadline` ASC "; //need to be ordered according to uploaded date.
 													$result = $conn->query($sql);
 													if ($result->num_rows > 0) {
 				                                ?>
 				                            <table class = "table table-bordered">
 				                              <thead>
 				                                <tr>
-				                                  <th class = "col-md-1"><strong>SchID</strong></th>
-				                                  <th class = "col-md-1"><strong>SigID</strong></th>
+				                                  <th class = "col-md-1" style="width: 5%"><strong>SchID</strong></th>
+				                                  <th class = "col-md-1" style="width: 5%"><strong>SigID</strong></th>
 				                                  <th class = "col-md-1" style="width: 20%"><strong>Name</strong></th>
-				                                  <th class = "col-md-1" style="width: 5%"><strong>Application DeadLine</strong></th>
-				                                  <th class = "col-md-1"><strong>Adminapproval</strong></th>
+				                                  <th class = "col-md-1" style="width: 3%"><strong>Application DeadLine</strong></th>
+				                                  <th class = "col-md-1" style="width: 5%;text-align:center;font-size:26px" colspan="5"><strong>Action</strong> </th>
+                                          <!-- <th class = "col-md-1"></th>
 				                               		<th class = "col-md-1"></th>
 				                               		<th class = "col-md-1"></th>
-				                                  <th class = "col-md-1"></th>
+				                                  <th class = "col-md-1"></th> -->
 
 				                                </tr>
 				                              </thead>
@@ -128,7 +129,14 @@
 				                                      		$schname=$row['schname'];
 				                                      		echo $row['schname']; ?></a></td>
 				                                      	<td><?php echo $row['appDeadline']; ?></td>
-				                                      	<td><?php echo $row['adminapproval']; ?></td>
+                                                <td>
+                    															<form action="tempSchView.php" method="post">
+                    					                        <input type="hidden" name="schname" value="<?php echo $schname; ?>">
+                    					                        <input type="hidden" name="sigID" value="<?php echo $sigID; ?>">
+                                                      <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                    					                        <button name="view" value="View">View</button>
+                    					                    </form>
+                    														</td>
 				                                      	<td>
 				                                      		<form action="backend/adminAcceptReject.php" method="post">
 					                                          <input type="hidden" name="schID" value="<?php echo $schID; ?>">
@@ -147,13 +155,23 @@
                                                       } ?>>Reject</button>
                     						                   </form>
                     														</td>
-                    														<td>
-                    															<form action="tempSchView.php" method="post">
-                    					                        <input type="hidden" name="schname" value="<?php echo $schname; ?>">
-                    					                        <input type="hidden" name="sigID" value="<?php echo $sigID; ?>">
-                                                      <input type="hidden" name="schID" value="<?php echo $schID; ?>">
-                    					                        <button name="view" value="View">View</button>
-                    					                    </form>
+                                                <td>
+                    															 <form action="backend/adminBlockUnblockSch.php" method="post" onsubmit="confirmblock(this,'This will Block the Scholarship and corresponding Applications.\n This wont Block the corresponding Signatory.\n Are your Sure?')">
+                    						                      <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                    						                      <button name="blk_unblk" value="blockScholarship" <?php if($row['schstatus'] === "inactive"){
+                                                        echo "disabled";
+                                                        echo " style = 'color:#fff'";
+                                                      } ?>>Block</button>
+                    						                   </form>
+                    														</td>
+                                                <td>
+                    															 <form action="backend/adminBlockUnblockSch.php" method="post" onsubmit="confirmunblock(this,'This will Unblock the Scholarships and corresponding Applications.\n This wont Unblock the corresponding Signatory.\n Are your Sure?')">
+                    						                      <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                    						                      <button name="blk_unblk" value="unblockScholarship" <?php if($row['schstatus'] === "active"){
+                                                        echo "disabled";
+                                                        echo " style = 'color:#fff'";
+                                                      } ?>>Unblock</button>
+                    						                   </form>
                     														</td>
 				                                    </tr>
 				                              </tbody>
@@ -161,32 +179,32 @@
 				                            </table>
 				                            <?php } ?>
 									</section>
-									<?php } else{   /*For all scholarships*/?>
+                <?php } else if($scholarship == "Pending" || $scholarship == "Approved" || $scholarship == "Rejected"){   /*For specified scholarships*/?>
 									<section>
 										<header>
 											<h3 style="padding-left: 30%;font-size:30px"><?php echo $scholarship; ?> Scholarships</h3><br>
 										</header>
               				<?php
-				                  $sql = "SELECT scholarshipID, sigID, schname, appDeadline, description, adminapproval FROM scholarship WHERE adminapproval='$scholarship' ORDER BY `appDeadline` ASC"; //need to be ordered according to uploaded date.
+				                  $sql = "SELECT scholarshipID, sigID, schname, appDeadline, description, adminapproval, schstatus FROM scholarship WHERE adminapproval='$scholarship' ORDER BY `appDeadline` ASC"; //need to be ordered according to uploaded date.
 													$result = $conn->query($sql);
 													if ($result->num_rows > 0) {
 				                                ?>
-				                            <table class = "table table-bordered">
-				                              <thead>
-				                                <tr>
-				                                  <th class = "col-md-1"><strong>SchID</strong></th>
-				                                  <th class = "col-md-1"><strong>SigID</strong></th>
-				                                  <th class = "col-md-1" style="width: 20%"><strong>Name</strong></th>
-				                                  <th class = "col-md-1" style="width: 5%"><strong>Application DeadLine</strong></th>
-				                                  <th class = "col-md-1"><strong>Adminapproval</strong></th>
-                                          <th class = "col-md-1"><strong>Status</strong></th>
-				                               		<th class = "col-md-1"></th>
-				                               		<th class = "col-md-1"></th>
-				                                  <th class = "col-md-1"></th>
+                                        <table class = "table table-bordered">
+    				                              <thead>
+    				                                <tr>
+    				                                  <th class = "col-md-1" style="width: 5%"><strong>SchID</strong></th>
+    				                                  <th class = "col-md-1" style="width: 5%"><strong>SigID</strong></th>
+    				                                  <th class = "col-md-1" style="width: 20%"><strong>Name</strong></th>
+    				                                  <th class = "col-md-1" style="width: 3%"><strong>Application DeadLine</strong></th>
+    				                                  <th class = "col-md-1" style="width: 5%;text-align:center;font-size:26px" colspan="5"><strong>Action</strong> </th>
+                                              <!-- <th class = "col-md-1"></th>
+    				                               		<th class = "col-md-1"></th>
+    				                               		<th class = "col-md-1"></th>
+    				                                  <th class = "col-md-1"></th> -->
 
-				                                </tr>
-				                              </thead>
-				                              <tbody>
+    				                                </tr>
+    				                              </thead>
+    				                              <tbody>
 				                                	<?php
 				                              			while($row = $result->fetch_assoc()) {
 				                              		?>
@@ -201,8 +219,14 @@
 				                                      		$schname=$row['schname'];
 				                                      		echo $row['schname']; ?></a></td>
 				                                      	<td><?php echo $row['appDeadline']; ?></td>
-				                                      	<td><?php echo $row['adminapproval']; ?></td>
-                                                <td><strong><?php echo "inactive,need to be edited" ; ?></strong></td>
+                                                <td>
+                                                  <form action="tempSchView.php" method="post">
+                                                     <input type="hidden" name="schname" value="<?php echo $schname; ?>">
+                                                    <input type="hidden" name="sigID" value="<?php echo $sigID; ?>">
+                                                    <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                                    <button name="view" value="View">View</button>
+                                                  </form>
+                                                </td>
 				                                      	<td>
 				                                      		<form action="backend/adminAcceptReject.php" method="post">
 					                                          <input type="hidden" name="schID" value="<?php echo $schID; ?>">
@@ -221,21 +245,33 @@
                                                       } ?>>Reject</button>
 						                                        </form>
                     														</td>
-                    														<td>
-                    															<form action="tempSchView.php" method="post">
-					                                           <input type="hidden" name="schname" value="<?php echo $schname; ?>">
-					                                          <input type="hidden" name="sigID" value="<?php echo $sigID; ?>">
-                                                    <input type="hidden" name="schID" value="<?php echo $schID; ?>">
-					                                          <button name="view" value="View">View</button>
-					                                        </form>
-														                    </td>
+                                                <td>
+                    															 <form action="backend/adminBlockUnblockSch.php" method="post" onsubmit="confirmblock(this,'This will Block the Scholarship and corresponding Applications.\n This wont Block the corresponding Signatory.\n Are your Sure?')">
+                    						                      <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                    						                      <button name="blk_unblk" value="blockScholarship" <?php if($row['schstatus'] === "inactive"){
+                                                        echo "disabled";
+                                                        echo " style = 'color:#fff'";
+                                                      } ?>>Block</button>
+                    						                   </form>
+                    														</td>
+                                                <td>
+                    															 <form action="backend/adminBlockUnblockSch.php" method="post" onsubmit="confirmunblock(this,'This will Unblock the Scholarships and corresponding Applications.\n This wont Unblock the corresponding Signatory.\n Are your Sure?')">
+                    						                      <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                    						                      <button name="blk_unblk" value="unblockScholarship" <?php if($row['schstatus'] === "active"){
+                                                        echo "disabled";
+                                                        echo " style = 'color:#fff'";
+                                                      } ?>>Unblock</button>
+                    						                   </form>
+                    														</td>
 				                                    </tr>
 				                              </tbody>
 				                              <?php } ?>
 				                            </table>
 				                            <?php } ?>
 									</section>
-									<?php } ?>
+                <?php } else {
+                  echo "Invalid Request";
+                } ?>
 								</div>
 
 						</section>
@@ -264,6 +300,24 @@
 		</div>
 
 		<!-- Scripts -->
+      <script type="text/javascript">
+      function confirmblock(form,str){
+        if(confirm(str)){
+          document.blockform.submit();
+        } else{
+          event.preventDefault();
+        }
+      }
+
+      function confirmunblock(form,str){
+        if(confirm(str)){
+          document.unblockform.submit();
+        } else{
+          event.preventDefault();
+        }
+      }
+      </script>
+
       <script src="js/jquery.min.js"></script>
       <script src="js/jquery.dropotron.min.js"></script>
       <script src="js/jquery.scrolly.min.js"></script>

@@ -12,10 +12,11 @@
   //check validity of the user
   $currentUserID=$_SESSION['currentUserID'];
   $schid=$_SESSION['schid'];
+  $sigID = $_SESSION['sigID'];
   if($currentUserID==NULL){
     header("Location:index.php");
   }
-  if($schid==NULL){
+  if($schid==NULL || $sigID==NULL){
   	header("Location:tempUserApply.php");
   }
 	if($_POST['apply'] == "Apply >>"){
@@ -32,7 +33,7 @@
 	        die("Connection failed: " . $conn->connect_error);
 	    }
 
-	    $sql="INSERT INTO application(studentID,scholarshipID,appDate) VALUES ('$currentUserID','$schid','$date1')";
+	    $sql="INSERT INTO application(studentID,sigID,scholarshipID,appDate) VALUES ('$currentUserID','$sigID','$schid','$date1')";
 	    if (mysqli_query($conn, $sql)) {
 			$flag=1;
 		}

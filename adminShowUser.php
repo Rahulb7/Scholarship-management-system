@@ -75,7 +75,6 @@
 							<!-- Content -->
 								<div class="content">
 									<section>
-                      <h1 style="text-align:center; font-size:25px">Student Details</h1>
                       <?php
                       try{
                         $conn = new mysqli("localhost","root","","sms");
@@ -83,7 +82,8 @@
                           die("Connection failed: " . $conn->connect_error);
                         }
 
-                        if(isset($_POST['showUser']) AND $_POST['showUser'] == "showStudent"){
+/* Student */         if(isset($_POST['showUser']) AND $_POST['showUser'] == "showStudent"){
+                          ?><h1 style="text-align:center; font-size:25px">Student Details</h1><?php
 
                           $studentID = $_POST['ID'];
                           $sql = "SELECT * FROM student WHERE studentID='$studentID'";
@@ -147,145 +147,224 @@
                               <tr>
                                 <th><b>Applications : </b></th>
                                 <td>
-                                <?php
-                                  $sql="SELECT * FROM application AS A JOIN scholarship AS S on A.scholarshipID=S.scholarshipID where studentID=$studentID";
-            					            $result = $conn->query($sql);
-            					                 if($result->num_rows > 0){
-                                      ?>
-                                        <select style="float:inherit" name="class" id="class" onchange="viewcontent()" style="margin-left: 30%;padding-top: 1%;padding-bottom: 1%">
-                                          <option value="select" selected>Select</option>
-                                          <?php
-                                        		while($row = $result->fetch_assoc()){
-                                        			$tempschid=$row['scholarshipID'];
-                                        			$tempschname=$row['schname'];
-                                    	?>
-                                        	<option value="<?php echo $tempschid;?>"><?php echo $tempschname;?></option>
-                                      <?php
-                                      	}
-                                      } else {
-                                      ?>
-                                        <h1>No Applications</h1>
-                                      <?php
-                                      }
-                                      ?>
-                                      </select>
+                                  <button id="showapp" value="showapp" onclick="viewapp()">Show</button>
+                                  <button id="hideapp" value="hideapp" onclick="hideapp()" style="display: none;">Hide</button>
                                 </td>
                               </tr>
                         </table>
+                        <section id="application" style="display: none;">
+                          	<table class="table table-bordered">
+                            	<thead>
+                                	<tr>
+                                  		<th style="width:10%">Application ID</th>
+                                  		<th style="width:30%">Scholarship</th>
+                                      <th style="width:10%">Scholarship ID</th>
+                                  		<th style="width:10%">Signatory Approval</th>
+                                      <th style="width:10%">Application Date</th>
+                                  		<th style="width:10%">App Status</th>
+                                	</tr>
+                            	</thead>
+                            	<tbody>
+                                	<?php
+                                  	$queryScholarship = "SELECT A.applicationID, S.schname, A.scholarshipID, A.verifiedBySignatory, A.appDate, A.appstatus  FROM application A join scholarship S on A.scholarshipID = S.scholarshipID WHERE A.studentID = $studentID";
+                                  	$qSchoResult = mysqli_query($conn, $queryScholarship);
+
+                                  	while($rows=mysqli_fetch_row($qSchoResult))
+                                  	{
+
+                                    	foreach($rows as $key => $value){
+                                          if ($key == 0){
+                                            ?> <tr><td> <?php echo $value;
+                                          }
+                                          if ($key == 1 || $key == 2 ||$key == 3 ||$key == 4 ||$key == 5){
+                                          	?> </td><td> <?php echo $value;
+                                        	}
+                                        	if($key == 6){
+                                        	?></td><td><?php echo $value; ?></td></tr><?php
+                                        	}
+                                    	}
+                                  	}
+                                	?>
+                            	</tbody>
+                          	</table>
+
+            						</section><br>
+                        <section style="text-align:center">
+                          <form name="blockform" method="post" onsubmit="confirmblock(this,'This will Block Student as well as All his Applications.\n Are your Sure?')" action="backend/adminBlockUser.php">
+                            <input type="hidden" name="ID" value="<?php echo $studentID; ?>">
+                            <input type="submit"  name="blockUser" id="blockUserbtn" value="blockStudent" <?php if($status === "inactive"){
+                              echo " style = 'color:#fff;display:none'";
+                            } ?>>
+                          </form><br>
+
+                          <form name="unblockform" action="backend/adminUnblockUser.php" onsubmit="confirmunblock(this,'This will unblock Student as well as All his Applications.\n Are your Sure?')"  method="post">
+                            <input type="hidden" name="ID" value="<?php echo $studentID; ?>">
+                            <input type="submit" name="unblockUser" id="unblockUserbtn" value="unblockStudent" <?php if($status === "active"){
+                              echo " style = 'color:#fff;display:none;'";
+                            } ?>>
+                          </form>
+                        </section>
                         <?php
                             }
                           }
+/* Signatory */         } else if(isset($_POST['showUser']) AND $_POST['showUser'] == "showSig"){
+                          ?><h1 style="text-align:center; font-size:25px">Signatory Details</h1><?php
+
+                          $sigID = $_POST['ID'];
+                          $sql = "SELECT * FROM signatory WHERE sigID='$sigID'";
+                          $result = $conn->query($sql);
+                          if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                        ?>
+                        <table class="table">
+                              <tr>
+                                  <th style="width:50%"><b>Signatory ID</b></th>
+                                  <td><?php echo $row['sigID']; ?></td>
+                              </tr>
+                              <tr>
+                                  <th style="width:50%"><b>Email ID</b></th>
+                                  <td><?php echo $row['upMail']; ?></td>
+                              </tr>
+                              <tr>
+                                  <th style="width:50%"><b>Name</b></th>
+                                    <td><?php echo $row['firstName'].' '.$row['middleName'].' '.$row['lastName']; ?></td>
+                              </tr>
+                              <tr>
+                                  <th style="width:50%"><b>Organization/University</b></th>
+                                  <td><?php echo $row['organization/university']; ?></td>
+                              </tr>
+                              <tr>
+                                  <th style="width:50%"><b>Position</b></th>
+                                  <td><?php echo $row['position']; ?></td>
+                              </tr>
+                              <tr>
+                                  <th style="width:50%"><b>Contact </b></th>
+                                  <td><?php echo $row['contact']; ?></td>
+                              </tr>
+                              <tr>
+                                  <th style="width:50%"><b>Status</b></th>
+                                  <td><?php echo $row['status']; $status = $row['status'] ?></td>
+                              </tr>
+                              <tr>
+                                <th><b>Scholarships : </b></th>
+                                <td>
+                                  <button id="showsch" value="showsch" onclick="viewsch()">Show</button>
+                                  <button id="hidesch" value="hidesch" onclick="hidesch()" style="display: none;">Hide</button>
+                                </td>
+                              </tr>
+                        </table>
+                        <section id="scholarship" style="display: none;">
+                                	<?php
+                                  	$queryScholarship = "SELECT * FROM scholarship WHERE sigID = $sigID";
+                                    $result = $conn->query($queryScholarship);
+          													if ($result->num_rows > 0) {
+        				                                ?>
+                                                <table class = "table table-bordered">
+            				                              <thead>
+            				                                <tr>
+            				                                  <th class = "col-md-1" style="width: 5%"><strong>SchID</strong></th>
+            				                                  <th class = "col-md-1" style="width: 5%"><strong>SigID</strong></th>
+            				                                  <th class = "col-md-1" style="width: 20%"><strong>Name</strong></th>
+            				                                  <th class = "col-md-1" style="width: 3%"><strong>Application DeadLine</strong></th>
+            				                                  <th class = "col-md-1" style="width: 5%;text-align:center;font-size:26px" colspan="5"><strong>Action</strong> </th>
+                                                      <!-- <th class = "col-md-1"></th>
+            				                               		<th class = "col-md-1"></th>
+            				                               		<th class = "col-md-1"></th>
+            				                                  <th class = "col-md-1"></th> -->
+
+            				                                </tr>
+            				                              </thead>
+            				                              <tbody>
+          				                                	<?php
+          				                              			while($row = $result->fetch_assoc()) {
+          				                              		?>
+                                                    <tr>
+                                                      <td><?php
+                                                        $schID=$row['scholarshipID'];
+                                                        echo $row['scholarshipID']; ?></td>
+                                                      <td><?php
+                                                        $sigID=$row['sigID'];
+                                                        echo $row['sigID']; ?></td>
+                                                        <td><a href="#" data-toggle="modal" data-target="#scholarshipDescription"><?php
+                                                          $schname=$row['schname'];
+                                                          echo $row['schname']; ?></a></td>
+                                                        <td><?php echo $row['appDeadline']; ?></td>
+                                                        <td>
+                                                          <form action="tempSchView.php" method="post">
+                                                              <input type="hidden" name="schname" value="<?php echo $schname; ?>">
+                                                              <input type="hidden" name="sigID" value="<?php echo $sigID; ?>">
+                                                              <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                                              <button name="view" value="View">View</button>
+                                                          </form>
+                                                        </td>
+                                                        <td>
+                                                          <form action="backend/adminAcceptReject.php" method="post">
+                                                            <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                                            <button name="accrej" value="Accept" <?php if($row['adminapproval'] === "Approved"){
+                                                              echo "disabled";
+                                                              echo " style = 'color:#fff'";
+                                                            } ?>>Approve</button>
+                                                          </form>
+                                                        </td>
+                                                        <td>
+                                                           <form action="backend/adminAcceptReject.php" method="post">
+                                                              <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                                              <button name="accrej" value="Reject" <?php if($row['adminapproval'] === "Rejected"){
+                                                                echo "disabled";
+                                                                echo " style = 'color:#fff'";
+                                                              } ?>>Reject</button>
+                                                           </form>
+                                                        </td>
+                                                        <td>
+                                                           <form action="backend/adminBlockUnblockSch.php" method="post">
+                                                              <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                                              <button name="blk_unblk" value="blockScholarship" <?php if($row['schstatus'] === "inactive"){
+                                                                echo "disabled";
+                                                                echo " style = 'color:#fff'";
+                                                              } ?>>Block</button>
+                                                           </form>
+                                                        </td>
+                                                        <td>
+                                                           <form action="backend/adminBlockUnblockSch.php" method="post">
+                                                              <input type="hidden" name="schID" value="<?php echo $schID; ?>">
+                                                              <button name="blk_unblk" value="unblockScholarship" <?php if($row['schstatus'] === "active"){
+                                                                echo "disabled";
+                                                                echo " style = 'color:#fff'";
+                                                              } ?>>Unblock</button>
+                                                           </form>
+                                                        </td>
+                                                    </tr>
+          				                              </tbody>
+          				                              <?php } ?>
+          				                            </table>
+          				                            <?php }
+                                	?>
+            						</section><br>
+                        <section style="text-align:center">
+                          <form name="blockform" method="post" onsubmit="confirmblock(this,'This will Block Signatory, the Scholarships corresponding to them as well as All Applications.\n Are your Sure?')" action="backend/adminBlockUser.php">
+                            <input type="hidden" name="ID" value="<?php echo $sigID; ?>">
+                            <input type="submit"  name="blockUser" id="blockUserbtn" value="blockSig" <?php if($status === "inactive"){
+                              echo " style = 'color:#fff;display:none'";
+                            } ?>>
+                          </form><br>
+
+                          <form name="unblockform" action="backend/adminUnblockUser.php" onsubmit="confirmunblock(this,'This will Unblock Signatory, the Scholarships corresponding to them as well as All Applications.\n Are your Sure?')"  method="post">
+                            <input type="hidden" name="ID" value="<?php echo $sigID; ?>">
+                            <input type="submit" name="unblockUser" id="unblockUserbtn" value="unblockSig" <?php if($status === "active"){
+                              echo " style = 'color:#fff;display:none;'";
+                            } ?>>
+                          </form>
+                        </section>
+                        <?php
+                            }
+                          }
+/* ADMIN  */          } else if(isset($_POST['showUser']) AND $_POST['showUser'] == "showAdmin"){
+                          echo "Admin";
                         }
                       } catch(Exception $e){}
                        ?>
 									</section>
-
-                  <section id="scholarship" style="display: none;">
-                    	<table class="table table-bordered">
-                      	<thead>
-                          	<tr>
-                            		<th style="width:10%">Application ID</th>
-                            		<th style="width:30%">Scholarship</th>
-                                <th style="width:10%">Scholarship ID</th>
-                            		<th style="width:10%">Signatory Approval</th>
-                                <th style="width:10%">Application Date</th>
-                            		<th style="width:10%">App Status</th>
-                          	</tr>
-                      	</thead>
-                      	<tbody>
-                          	<?php
-                            	$queryScholarship = "SELECT A.applicationID, S.schname, A.scholarshipID, A.verifiedBySignatory, A.appDate, A.appstatus  FROM application A join scholarship S on A.scholarshipID = S.scholarshipID WHERE A.studentID = $studentID AND A.scholarshipID=$tempschid";
-                            	$qSchoResult = mysqli_query($conn, $queryScholarship);
-
-                            	while($rows=mysqli_fetch_row($qSchoResult))
-                            	{
-
-                              	foreach($rows as $key => $value){
-                                    if ($key == 0){
-                                      ?> <tr><td> <?php echo $value;
-                                    }
-                                    if ($key == 1 || $key == 2 ||$key == 3 ||$key == 4 ||$key == 5){
-                                    	?> </td><td> <?php echo $value;
-                                  	}
-                                  	if($key == 6){
-                                  	?></td><td><?php echo $value; ?></td></tr><?php
-                                  	}
-                              	}
-                            	}
-                          	?>
-                      	</tbody>
-                    	</table>
-
-      						</section><br>
-                  <section style="text-align:center">
-                    <form name="blockform" method="post" onsubmit="confirmblock(this)" action="backend/adminBlockUser.php">
-                      <input type="hidden" name="ID" value="<?php echo $studentID; ?>">
-                      <input type="submit"  name="blockUser" id="blockUserbtn" value="blockStudent" <?php if($status === "inactive"){
-                        echo "disabled";
-                        echo " style = 'color:#fff'";
-                      } ?>>
-                    </form><br>
-
-                    <form name="unblockform" action="backend/adminUnblockUser.php" onsubmit="confirmunblock(this)"  method="post">
-                      <input type="hidden" name="ID" value="<?php echo $studentID; ?>">
-                      <input type="submit" name="unblockUser" id="unblockUserbtn" value="unblockStudent" <?php if($status === "active"){
-                        echo "disabled";
-                        echo " style = 'color:#fff'";
-                      } ?>>
-                    </form>
-                  </section>
 								</div>
-						</section>
-
-					<!-- Two -->
-						<section class="wrapper style1 container special">
-							<div class="row">
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>This is Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>Also Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>Probably Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-							</div>
 						</section>
 
 				</article>
@@ -311,33 +390,62 @@
 
 		<!-- Scripts -->
     <script type="text/javascript">
-  		function viewcontent(){
-  			var selectone=document.getElementById("class");
-  			var schview=document.getElementById("scholarship");
-  			if(selectone!="select"){
-  				<?php $scholarshipviewID = 'selectone'; ?>
-  				schview.style.display = 'block';
-  			}
-  			else{
-  				schview.style.display = 'none';
-  			}
+      //Student
+      function viewapp(){
+        var showapp=document.getElementById("showapp");
+        var hideapp=document.getElementById("hideapp");
+  			var schview=document.getElementById("application");
+        schview.style.display = 'block';
+        hideapp.style.display = 'inline';
+        showapp.style.display = 'none';
   		}
 
-      function confirmblock(form){
-        if(confirm("This will Block Student as well as All his Applications.\n Are your Sure?")){
+      function hideapp(){
+        var showapp=document.getElementById("showapp");
+        var hideapp=document.getElementById("hideapp");
+        var schview=document.getElementById("application");
+        schview.style.display = 'none';
+        hideapp.style.display = 'none';
+        showapp.style.display = 'inline';
+  		}
+
+      function confirmblock(form,str){
+        if(confirm(str)){
           document.blockform.submit();
         } else{
           event.preventDefault();
         }
       }
 
-      function confirmunblock(form){
-        if(confirm("This will unblock Student as well as All his Applications.\n Are your Sure?")){
+      function confirmunblock(form,str){
+        if(confirm(str)){
           document.unblockform.submit();
         } else{
           event.preventDefault();
         }
       }
+
+
+
+      //Signatory
+      function viewsch(){
+        var showapp=document.getElementById("showsch");
+        var hideapp=document.getElementById("hidesch");
+  			var schview=document.getElementById("scholarship");
+        schview.style.display = 'block';
+        hideapp.style.display = 'inline';
+        showapp.style.display = 'none';
+  		}
+
+      function hidesch(){
+        var showapp=document.getElementById("showsch");
+        var hideapp=document.getElementById("hidesch");
+        var schview=document.getElementById("scholarship");
+        schview.style.display = 'none';
+        hideapp.style.display = 'none';
+        showapp.style.display = 'inline';
+  		}
+
   	</script>
       <script src="js/jquery.min.js"></script>
       <script src="js/jquery.dropotron.min.js"></script>
