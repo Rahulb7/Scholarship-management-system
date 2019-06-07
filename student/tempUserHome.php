@@ -53,7 +53,7 @@
 
       <!-- Bootstrap Core CSS -->
       <link href="../css/bootstrap.min.css" rel="stylesheet">
-
+      <link href="../css/tempuserhome.css" rel="stylesheet">
       <!-- Custom CSS -->
       <link href="../css/main.css" rel="stylesheet">
 
@@ -64,7 +64,7 @@
     <div id = "page-wrapper">
 
       <!-- Header -->
-        <header id = "header" class = "alt">
+        <header id = "header" class = "alt" style="background-color:#f3f6fa;color:black;height:4%">
           <h1 id = "logo"><a href = "javascript:history.back()" class="button special">Back</a></h1>
           <nav id = "nav">
             <ul>
@@ -78,20 +78,61 @@
           </nav>
         </header>
 
-      <!-- Banner -->
-        <section id = "banner">
-          <div class = "inner">
-            <header>
-              <h2>SMS</h2>
-            </header>
-            <p>Scholarship Management System<p>
-            <footer>
-              <ul class = "buttons vertical">
-                <li><a href = "#main" class = "button fit scrolly">About</a></li>
-              </ul>
-            </footer>
-          </div>
+        <!-- Banner -->
+        <section id="test">
+        <div class="slideshow-container">
+
+        <div class="mySlides fade">
+          <div class="numbertext">1 / 3</div>
+          <img src="../images/bg1.jpg">
+          <div class="text">Caption Text</div>
+        </div>
+
+        <div class="mySlides fade">
+          <div class="numbertext">2 / 3</div>
+          <img src="../images/bg2.jpg">
+          <div class="text">Caption Two</div>
+        </div>
+
+        <div class="mySlides fade">
+          <div class="numbertext">3 / 3</div>
+          <img src="../images/bg3.jpg">
+          <div class="text">Caption Three</div>
+        </div>
+
+        </div>
+        <br>
+
+        <div style="text-align:center">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+
+        <script>
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+          var i;
+          var slides = document.getElementsByClassName("mySlides");
+          var dots = document.getElementsByClassName("dot");
+          for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+          }
+          slideIndex++;
+          if (slideIndex > slides.length) {slideIndex = 1}
+          for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+          }
+          slides[slideIndex-1].style.display = "block";
+          dots[slideIndex-1].className += " active";
+          setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+        </script>
         </section>
+
+
 
         <!-- About (To be shifted on about page) -->
         <article id = "main">
@@ -187,6 +228,36 @@
 
           </section>
 
+
+
+          <section class="wrapper style5 container special">
+            <header>
+              <h2><strong>Most popular Cities</Strong></h2>
+            <header>
+
+            <div class="row1">
+              <div class="column1">
+                <a href="#">
+                  <img src="../images/ahm.jpg" alt="Ahmedabad" style="width:100%" >
+                  <span style="display:block;">Scholarship in </span><b>Ahmedabad</b>
+                </a>
+              </div>
+              <div class="column1">
+                <a href="#">
+                  <img src="../images/mumbai.jpg" alt="Mumbai" style="width:100%">
+                  <span style="display:block;">Scholarship in </span><b>Mumbai</b>
+                </a>
+              </div>
+              <div class="column1">
+               <a href="#">
+                 <img src="../images/chennai.jpg" alt="Chennai" style="width:100%">
+                 <span style="display:block;">Scholarship in </span><b>Chennai</b>
+               </a>
+             </div>
+            </div>
+        </section>
+
+
           <section class="wrapper style1 container special">
               <div class="row">
 
@@ -257,15 +328,13 @@
         </article>
 
         <section id="cta">
-
           <header>
             <h2>Ready to do <strong>something</strong>?</h2>
             <p>Proin a ullamcorper elit, et sagittis turpis integer ut fermentum.</p>
           </header>
           <footer>
             <ul class="buttons">
-              <li><a href="#" class="button special">TEXT</a></li>
-              <li><a href="#" class="button">TEXT</a></li>
+              <li><a href="../tempAboutUs.php" class="button special">About Us</a></li>
             </ul>
           </footer>
         </section>

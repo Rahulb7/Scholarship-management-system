@@ -1,0 +1,31 @@
+
+/* image */
+* {box-sizing: border-box;}
+
+.text-block {
+  text-align:center;
+  position:relative;
+  color: white;
+  bottom:350px;
+}
+
+div.transbox {
+   margin-left:350px;
+   margin-right:300px;
+  background-color:#f2f2f2;
+  border: 1px solid black;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
+div.transbox p {
+  margin:1%;
+  font-weight: bold;
+  color: #000000;
+  font-size:40px;
+}
+
+
+img{
+  float: right;
+}
