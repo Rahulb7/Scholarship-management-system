@@ -8,7 +8,7 @@
 	try{
 		/*Open a connection to mySQL*/
 		// Connect to database
-    	$conn = new mysqli("localhost:3309","root","","sms");
+    	$conn = new mysqli("localhost","root","","sms");
 
 		  // Checks Connection
 	    if ($conn->connect_error) {
@@ -23,7 +23,7 @@
 		 ?>
 			<script type="text/javascript">
 				alert('Scholarship is Accepted!');
-				location.replace("../tempScholarship.php");
+				location.replace("../admin/tempScholarship.php");
 			</script>
 		<?php
 
@@ -31,7 +31,7 @@
 		 ?>
 			<script type="text/javascript">
 				alert('Error updating record');
-				location.replace("../tempScholarship.php");
+				location.replace("../admin/tempScholarship.php");
 			</script>
 		<?php
 			}
@@ -45,7 +45,7 @@
 		 ?>
 			<script type="text/javascript">
 				alert('Scholarship is Rejected!');
-				location.replace("../tempScholarship.php");
+				location.replace("../admin/tempScholarship.php");
 			</script>
 		<?php
 
@@ -53,7 +53,7 @@
 		 ?>
 			<script type="text/javascript">
 				alert('Error updating record');
-				location.replace("../tempScholarship.php");
+				location.replace("../admin/tempScholarship.php");
 			</script>
 		<?php
 			}

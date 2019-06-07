@@ -1,5 +1,4 @@
-	<!DOCTYPE HTML>
-
+<!DOCTYPE HTML>
 <html>
   <head>
   </head>
@@ -9,13 +8,13 @@
 	session_start();
 	$currentUserID=$_SESSION['currentUserID'];
   	if($currentUserID==NULL){
-    	header("Location:index.php");
+    	header("Location:../index.php");
   	}
 
 	try{
 		/*Open a connection to mySQL*/
 		// Connect to database
-    	$conn = new mysqli("localhost:3309","root","","sms");
+    	$conn = new mysqli("localhost","root","","sms");
 
 		  // Checks Connection
 	    if ($conn->connect_error) {
@@ -48,7 +47,7 @@
 				 ?>
 					<script type="text/javascript">
 						alert('Application is in Accepted and Processing Mode now!');
-						location.replace("../tempSigApplication.php");
+						location.replace("../signatory/tempSigApplication.php");
 					</script>
 				<?php
 
@@ -56,7 +55,7 @@
 				 ?>
 					<script type="text/javascript">
 						alert('Error updating record');
-						location.replace("../tempSigApplication.php");
+						location.replace("../signatory/tempSigApplication.php");
 					</script>
 				<?php
 					}
@@ -64,7 +63,7 @@
 				?>
 				 <script type="text/javascript">
 					 alert('Cannot Approve.\nThe Application is in inactive Mode');
-					 location.replace("../tempSigApplication.php");
+					 location.replace("../signatory/tempSigApplication.php");
 				 </script>
 			 <?php
 			}
@@ -86,7 +85,7 @@
 				?>
 		 			<script type="text/javascript">
 		 				alert('Error');
-		 				location.replace("../tempSigApplication.php");
+		 				location.replace("../signatory/tempSigApplication.php");
 		 			</script>
 	 			<?php
 			}
@@ -96,7 +95,7 @@
 				 ?>
 					<script type="text/javascript">
 						alert('Application is in Rejected Mode now!');
-						location.replace("../tempSigApplication.php");
+						location.replace("../signatory/tempSigApplication.php");
 					</script>
 				<?php
 
@@ -104,7 +103,7 @@
 				 ?>
 					<script type="text/javascript">
 						alert('Error updating record');
-						location.replace("../tempSigApplication.php");
+						location.replace("../signatory/tempSigApplication.php");
 					</script>
 				<?php
 					}
@@ -112,7 +111,7 @@
 				?>
 				 <script type="text/javascript">
 					 alert('Cannot Reject.\nThe Application is in inactive Mode');
-					 location.replace("../tempSigApplication.php");
+					 location.replace("../signatory/tempSigApplication.php");
 				 </script>
 			 <?php
 			}

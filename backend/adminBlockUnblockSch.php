@@ -20,14 +20,14 @@
                 ?>
                 <script type="text/javascript">
                   alert('Successfully Blocked Scholarships and corresponding Applications');
-                  location.replace('../tempScholarship.php');
+                  location.replace('../admin/tempScholarship.php');
                 </script>
               <?php
               } else {
                 ?>
                   <script type="text/javascript">
                     alert( "Unable to Block Applications");
-                    location.replace('../tempScholarship.php');
+                    location.replace('../admin/tempScholarship.php');
                   </script>
                 <?php
               }
@@ -35,7 +35,7 @@
             ?>
               <script type="text/javascript">
                 alert( "Unable to Block Scholarships And Applications");
-                location.replace('../tempScholarship.php');
+                location.replace('../admin/tempScholarship.php');
               </script>
             <?php
           }
@@ -49,14 +49,14 @@
                 ?>
                 <script type="text/javascript">
                   alert('Successfully UnBlocked Scholarships and corresponding Applications');
-                  location.replace('../tempScholarship.php');
+                  location.replace('../admin/tempScholarship.php');
                 </script>
               <?php
               } else {
                 ?>
                   <script type="text/javascript">
                     alert( "Unable to UnBlock Applications");
-                    location.replace('../tempScholarship.php');
+                    location.replace('../admin/tempScholarship.php');
                   </script>
                 <?php
               }
@@ -64,7 +64,7 @@
             ?>
               <script type="text/javascript">
                 alert( "Unable to UnBlock Scholarships And Applications");
-                location.replace('../tempScholarship.php');
+                location.replace('../admin/tempScholarship.php');
               </script>
             <?php
           }
@@ -72,7 +72,7 @@
           ?>
             <script type="text/javascript">
               alert('Invalid Request');
-              location.replace('../tempAdmin.php');
+              location.replace('../admin/tempAdmin.php');
             </script>
           <?php
         }

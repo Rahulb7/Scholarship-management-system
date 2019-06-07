@@ -3,7 +3,7 @@
 	 //check validity of the user
   $currentUserID=$_SESSION['currentUserID'];
   if($currentUserID==NULL){
-    header("Location:index.php");
+    header("Location:../index.php");
   }
 ?>
 <!DOCTYPE HTML>
@@ -122,7 +122,7 @@
   				 ?>
   				    <script type="text/javascript">
                 			alert("Scholarship is added and will be further processed by Admin to validate!");
-                			location.replace("../tempSigScholarship.php")
+                			location.replace("../signatory/tempSigScholarship.php")
               		</script>
   			  	<?php
   			}
@@ -213,7 +213,7 @@
   				 ?>
   				    <script type="text/javascript">
                 			alert("Scholarship is Updated and will be further processed by Admin to validate!");
-                			location.replace("../tempSigScholarship.php")
+                			location.replace("../signatory/tempSigScholarship.php")
               		</script>
   			  	<?php
   			}else{

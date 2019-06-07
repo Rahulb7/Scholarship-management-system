@@ -14,10 +14,10 @@
   $schid=$_SESSION['schid'];
   $sigID = $_SESSION['sigID'];
   if($currentUserID==NULL){
-    header("Location:index.php");
+    header("Location:../index.php");
   }
   if($schid==NULL || $sigID==NULL){
-  	header("Location:tempUserApply.php");
+  	header("Location:../student/tempUserApply.php");
   }
 	if($_POST['apply'] == "Apply >>"){
 
@@ -59,7 +59,7 @@
 				 ?>
 				    <script type="text/javascript">
 				   		alert("Your Application is Submitted Successfully!");
-				   		location.replace("../tempUserHome.php")
+				   		location.replace("../student/tempUserHome.php")
 				   	</script>
 			  	<?php
 			}
@@ -68,7 +68,7 @@
 		?>
 			<script>
 				alert("Error! File upload Failed.");
-				location.replace("applyprocess.php");
+				location.replace("../student/applyprocess.php");
 			</script>
 		<?php
 		}

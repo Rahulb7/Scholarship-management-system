@@ -49,9 +49,9 @@
         }
         $DBH = null;
         if($flag != 0){
-          if ($_SESSION['currentUserTYPE'] == 1) header('Location: ../tempUserHome.php');
-          elseif ($_SESSION['currentUserTYPE'] == 2) header('Location: ../tempAdmin.php');
-          elseif ($_SESSION['currentUserTYPE'] == 3) header('Location: ../tempSigHome.php');
+          if ($_SESSION['currentUserTYPE'] == 1) header('Location: ../student/tempUserHome.php');
+          elseif ($_SESSION['currentUserTYPE'] == 2) header('Location: ../admin/tempAdmin.php');
+          elseif ($_SESSION['currentUserTYPE'] == 3) header('Location: ../signatory/tempSigHome.php');
           else {
             $_SESSION['errMsg'] = "UserName or Password Incorrect!";
             header('Location: ../index.php');

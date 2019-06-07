@@ -6,6 +6,11 @@
   </head>
   <body>
     <?php
+    session_start();
+    $currentUserID=$_SESSION['currentUserID'];
+      if($currentUserID==NULL){
+        header("Location:../index.php");
+      }
         $conn = new mysqli("localhost","root","","sms");
         if ($conn->connect_error) {
           die("Connection failed: " . $conn->connect_error);
@@ -18,14 +23,14 @@
               ?>
               <script type="text/javascript">
                 alert('Successfully Blocked Application');
-                location.replace('../tempSigApplication.php');
+                location.replace('../signatory/tempSigApplication.php');
               </script>
             <?php
             } else {
               ?>
                 <script type="text/javascript">
                   alert( "Unable to Block Application");
-                  location.replace('../tempSigApplication.php');
+                  location.replace('../signatory/tempSigApplication.php');
                 </script>
               <?php
             }
@@ -36,14 +41,14 @@
             ?>
             <script type="text/javascript">
               alert('Successfully UnBlocked Application');
-              location.replace('../tempSigApplication.php');
+              location.replace('../signatory/tempSigApplication.php');
             </script>
           <?php
           } else {
             ?>
               <script type="text/javascript">
                 alert( "Unable to UnBlock Application");
-                location.replace('../tempSigApplication.php');
+                location.replace('../signatory/tempSigApplication.php');
               </script>
             <?php
           }
@@ -51,7 +56,7 @@
           ?>
             <script type="text/javascript">
               alert('Invalid Request');
-              location.replace('../tempSigHome.php');
+              location.replace('../signatory/tempSigHome.php');
             </script>
           <?php
         }

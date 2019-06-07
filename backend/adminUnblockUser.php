@@ -20,14 +20,14 @@
               ?>
                 <script type="text/javascript">
                   alert('Successfully Unblocked the Student and corresponding Applicaitons');
-                  location.replace('../tempStudentShow.php');
+                  location.replace('../admin/tempStudentShow.php');
                 </script>
               <?php
               } else {
                 ?>
                   <script type="text/javascript">
                     alert( "Unable to Unblock Applications");
-                    location.replace('../tempStudentShow.php');
+                    location.replace('../admin/tempStudentShow.php');
                   </script>
                 <?php
               }
@@ -35,7 +35,7 @@
             ?>
               <script type="text/javascript">
                 alert( "Unable to Unblock Student");
-                location.replace('../tempStudentShow.php');
+                location.replace('../admin/tempStudentShow.php');
               </script>
             <?php
           }
@@ -52,14 +52,14 @@
                   ?>
                   <script type="text/javascript">
                     alert('Successfully UnBlocked the Signatory, corresponding Scholarships and Applications');
-                    location.replace('../tempSignatoryShow.php');
+                    location.replace('../admin/tempSignatoryShow.php');
                   </script>
                 <?php
                 } else {
                   ?>
                     <script type="text/javascript">
                       alert( "Unable to UnBlock Applications");
-                      location.replace('../tempSignatoryShow.php');
+                      location.replace('../admin/tempSignatoryShow.php');
                     </script>
                   <?php
                 }
@@ -67,7 +67,7 @@
               ?>
                 <script type="text/javascript">
                   alert( "Unable to UnBlock Scholarships And Applications");
-                  location.replace('../tempSignatoryShow.php');
+                  location.replace('../admin/tempSignatoryShow.php');
                 </script>
               <?php
             }
@@ -75,7 +75,7 @@
           ?>
             <script type="text/javascript">
               alert( "Unable to UnBlock Signatory");
-              location.replace('../tempSignatoryShow.php');
+              location.replace('../admin/tempSignatoryShow.php');
             </script>
           <?php
           }
@@ -87,7 +87,7 @@
           ?>
             <script type="text/javascript">
               alert('Invalid Page');
-              location.replace("../tempAdmin.php");
+              location.replace("../admin/tempAdmin.php");
             </script>
           <?php
         }
