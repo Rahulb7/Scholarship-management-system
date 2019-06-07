@@ -42,7 +42,7 @@
       <!-- Header -->
          <!-- Header -->
        <header id = "header">
-          <h1 id = "logo"><a href = "#">Scholarships<span> that matter</span></a></h1>
+         <h1 id = "logo"><a href = "javascript:history.back()" class="button special">Back</a></h1>
           <nav id = "nav">
             <ul>
               <li class = ""><a href = "tempAdmin.php">Home</a></li>
@@ -63,7 +63,7 @@
                 </ul>
               </li>
               <li class = "submenu">
-                <a href = "tempUsersShow.php">Users</a>
+                <a href = "">Users</a>
                 <ul>
                   <li><a href = "tempAdminShow.php">Admin</a></li>
                   <li><a href = "tempSignatoryShow.php">Signatory</a></li>

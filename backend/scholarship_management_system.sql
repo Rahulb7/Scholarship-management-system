@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2019 at 07:49 AM
+-- Generation Time: Jun 07, 2019 at 02:04 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -57,27 +57,27 @@ INSERT INTO `admin` (`adminID`, `upMail`, `password`, `firstName`, `middleName`,
 CREATE TABLE `application` (
   `applicationID` int(11) NOT NULL,
   `studentID` int(11) NOT NULL,
+  `sigID` int(11) DEFAULT NULL,
   `scholarshipID` int(11) NOT NULL,
   `appDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `status` varchar(10) DEFAULT 'Pending',
-  `verifiedBySignatory` varchar(10) NOT NULL DEFAULT 'Pending'
+  `appstatus` varchar(20) NOT NULL DEFAULT 'Pending',
+  `verifiedBySignatory` varchar(20) NOT NULL DEFAULT 'Pending',
+  `previous_appstatus` varchar(20) NOT NULL,
+  `previous_verifiedBySignatory` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application`
 --
 
-INSERT INTO `application` (`applicationID`, `studentID`, `scholarshipID`, `appDate`, `status`, `verifiedBySignatory`) VALUES
-(20, 15, 1, '2019-04-15 00:28:11', 'Rejected', 'Rejected'),
-(30, 14, 2, '2019-05-25 11:23:29', 'Rejected', 'Rejected'),
-(31, 15, 2, '2019-04-15 00:31:55', 'Processing', 'Approved'),
-(32, 14, 4, '2019-04-15 11:00:57', 'Processing', 'Approved'),
-(33, 4, 2, '2019-04-15 08:45:48', 'Pending', 'Pending'),
-(34, 14, 19, '2019-04-15 15:39:26', 'Processing', 'Approved'),
-(35, 14, 20, '2019-05-06 22:02:09', 'Pending', 'Pending'),
-(36, 43, 20, '2019-05-31 20:22:24', 'Pending', 'Pending'),
-(37, 43, 21, '2019-05-31 20:25:46', 'Pending', 'Pending'),
-(38, 43, 22, '2019-06-02 19:54:13', 'Pending', 'Pending');
+INSERT INTO `application` (`applicationID`, `studentID`, `sigID`, `scholarshipID`, `appDate`, `appstatus`, `verifiedBySignatory`, `previous_appstatus`, `previous_verifiedBySignatory`) VALUES
+(38, 43, 8, 22, '2019-06-06 13:58:58', 'inactive', 'currently blocked', 'Rejected', 'Rejected'),
+(39, 43, 8, 23, '2019-06-06 13:40:15', 'Processing', 'Approved', 'Processing', 'Approved'),
+(40, 43, 8, 25, '2019-06-06 11:20:19', 'Pending', 'Pending', 'Pending', 'Pending'),
+(41, 43, 7, 31, '2019-06-07 16:17:26', 'Pending', 'Pending', 'Pending', 'Pending'),
+(42, 43, 8, 30, '2019-06-07 16:16:50', 'Pending', 'Pending', 'Pending', 'Pending'),
+(43, 43, 8, 26, '2019-06-07 08:51:11', 'Pending', 'Pending', '', ''),
+(44, 44, 8, 23, '2019-06-07 11:20:22', 'Pending', 'Pending', '', '');
 
 -- --------------------------------------------------------
 
@@ -126,22 +126,28 @@ CREATE TABLE `scholarship` (
   `apply` varchar(4095) NOT NULL,
   `links` varchar(1024) NOT NULL,
   `contact` varchar(1024) NOT NULL,
-  `adminapproval` varchar(11) NOT NULL
+  `adminapproval` varchar(20) NOT NULL,
+  `previous_adminapproval` varchar(20) NOT NULL,
+  `schstatus` varchar(20) NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `scholarship`
 --
 
-INSERT INTO `scholarship` (`scholarshipID`, `sigID`, `schname`, `schlocation`, `schlocationfrom`, `degree`, `gender`, `religion`, `sch`, `appDeadline`, `granteesNum`, `funding`, `description`, `eligibility`, `benefits`, `apply`, `links`, `contact`, `adminapproval`) VALUES
-(22, 8, 'abc', 'abcccc', 'abccccccc', 'graduation', 'male', 'christian', 'select', '2019-06-30', 12, '1200', 'abc', 'abc', 'abc', 'abc', 'abc', 'xyz', 'Pending'),
-(23, 8, 'india', 'india', 'india', 'class8', 'male+female', 'Parsi, ', 'visual_art', '2019-07-20', 12, '1200', 'india', 'india', 'india', 'india', 'india', 'india', 'Pending'),
-(24, 8, 'xyz', 'xyz', 'xyz', 'phd', 'male+female', 'Muslim', 'sports_talent', '2019-06-30', 12, '1200', 'xyzxyz', 'xyz', 'xyz', 'xyz', 'xyz', 'xyz', 'Pending'),
-(25, 8, 'pqr', 'pqr', 'pqr', 'postgraduation', 'female', 'Sikh', 'science_maths_based', '2019-06-29', 12, '1200', 'pqr', 'pqr', 'pqr', 'pqr', 'pqr', 'pqr', 'Pending'),
-(26, 8, 'def', 'def', 'def', 'class12passed', 'male+female', 'jain, ', 'means_based', '2019-06-22', 12, '1200', 'def', 'def', 'def', 'def', 'def', 'def', 'Pending'),
-(27, 8, 'my', 'my', 'my', 'class1', 'male+female', 'jain<br/>', 'merit_based', '2019-06-23', 12, '1200', 'my', 'my', 'my', 'myu', 'my', 'my', 'Pending'),
-(28, 8, 'ok', 'ok', 'ok', 'class1', 'male', 'hindu, ', 'merit_based', '2019-06-23', 12, '1200', 'ok', 'ok', 'ok', 'ok', 'ok', 'ok', 'Pending'),
-(29, 8, 'ppp', 'ppp', 'ppp', 'class1', 'male+female', 'buddhism,christian,Muslim', 'merit_based', '2019-06-30', 12, '1200', 'ppp', 'ppp', 'ppp', 'ppp', 'ppp', 'ppp', 'Pending');
+INSERT INTO `scholarship` (`scholarshipID`, `sigID`, `schname`, `schlocation`, `schlocationfrom`, `degree`, `gender`, `religion`, `sch`, `appDeadline`, `granteesNum`, `funding`, `description`, `eligibility`, `benefits`, `apply`, `links`, `contact`, `adminapproval`, `previous_adminapproval`, `schstatus`) VALUES
+(22, 8, 'abc', 'abcccc', 'abccccccc', 'graduation', 'male', 'christian', 'select', '2019-06-30', 12, '1200', 'rahul', 'abc', 'OKKKK', 'abc', 'abc', 'xyz', 'Pending', 'Approved', 'active'),
+(23, 8, 'india', 'india', 'india', 'class8', 'male+female', 'Parsi, ', 'visual_art', '2019-07-20', 12, '1200', 'india', 'india', 'india', 'india', 'india', 'india', 'Approved', 'Approved', 'active'),
+(24, 8, 'xyz', 'xyz', 'xyz', 'phd', 'male+female', 'Muslim', 'sports_talent', '2019-06-30', 12, '1200', 'xyzxyz', 'xyz', 'xyz', 'xyz', 'xyz', 'xyz', 'Pending', 'Pending', 'active'),
+(25, 8, 'pqr', 'pqr', 'pqr', 'postgraduation', 'female', 'Sikh', 'science_maths_based', '2019-06-29', 12, '1200', 'pqr', 'pqr', 'pqr', 'pqr', 'pqr', 'pqr', 'Approved', 'Approved', 'active'),
+(26, 8, 'def', 'def', 'def', 'class12passed', 'male+female', 'jain, ', 'means_based', '2019-06-22', 12, '1200', 'def', 'def', 'def', 'def', 'def', 'def', 'Approved', 'Approved', 'active'),
+(27, 8, 'my', 'my', 'my', 'class1', 'male+female', 'jain<br/>', 'merit_based', '2019-06-23', 12, '1200', 'my', 'my', 'my', 'myu', 'my', 'my', 'Rejected', 'Rejected', 'active'),
+(28, 8, 'ok', 'ok', 'ok', 'class1', 'male', 'hindu, ', 'merit_based', '2019-06-23', 12, '1200', 'ok', 'ok', 'ok', 'ok', 'ok', 'ok', 'Approved', 'Pending', 'active'),
+(29, 8, 'ppp', 'ppp', 'ppp', 'class1', 'male+female', 'buddhism,christian,Muslim', 'merit_based', '2019-06-30', 12, '1200', 'ppp', 'ppp', 'ppp', 'ppp', 'ppp', 'ppp', 'Pending', 'Pending', 'active'),
+(30, 8, 'dish', 'dish', 'dish', 'class1', 'female', 'buddhism,christian,hindu', 'merit_based', '2019-06-16', 100, '1500', 'dish <a href=\"https://www.google.com/\">click here</a>', 'dish', 'dish', 'dish', 'dish', 'dish', 'Approved', 'Approved', 'active'),
+(31, 7, 'University of Bradford Half Free Academic Excellence Scholarship 2019 ', 'Gujarat', 'Gujarat', 'postgraduation', 'male+female', 'buddhism,christian,hindu,jain,Muslim,Parsi,Sikh', 'merit_based', '2019-07-06', 100, '50% of the fees', 'The University of Bradford, UK invites applications for the Half Free Academic Excellence Scholarship 2019 from undergraduate and postgraduate applicants. These scholarships are generated with an objective to celebrate the academic excellence of talented students. The selected scholars will have the opportunity to avail a scholarship worth half of the tuition fee. A total of 10 scholarships will be provided.', 'The following applicants are eligible to apply for the scholarship program:\r\n1. Should enter the respective programme in Year 0 (Foundation) or Year 1\r\n2. Must be applying for a full-time degree either undergraduate or postgraduate taught (not research)\r\n3. Must have been made an offer to study at the University of Bradford from September 2019\r\n4. Must score the equivalent of AAA in A-levels (for undergraduate study) or a first-class honours degree (for postgraduate study)\r\n5. Must be paying the tuition fee without any external financial aidOnly open to students whose courses will be based in Bradford\r\nNote: Any external or distance learning courses are not eligible for this award.', 'The selected scholars will be eligible for a scholarship worth half of the tuition fee.\r\nNote: The scholarship will be paid in subsequent years if progressing with an average of 60% or above.', 'Follow the steps to apply: \r\nStep 1: Download the application form by visiting the scholarship page. \r\nStep 2: Fill in the form with the required details. \r\nStep 3: Attach the necessary documents. \r\nStep 4: Submit the application form to the below address before the deadline (3 June 2019): Fees and Finance Team\r\nThe Hub\r\nStudent Registry Services\r\nUniversity of Bradford\r\nRichmond Road\r\nBradford\r\nBD7 1DP\r\nStep 5: Alternatively, the duly filled application can also be sent by email to scholarships@bradford.ac.uk with the subject HALF FEE ACADEMIC SCHOLARSHIPS.', 'Original website\r\n\r\nApply online link', 'University of Bradford,\r\nRichmond Road,\r\nBradford BD7 1DP, UK\r\n\r\nPhone: 01274 236637\r\nEmail: scholarships@bradford.ac.uk', 'Approved', 'Approved', 'active'),
+(32, 7, 'abc abc abc abc', 'abc', 'abc', 'class3', 'female', 'buddhism,christian,hindu', 'merit_based', '2019-06-30', 100, '1000', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'Pending', 'Pending', 'active'),
+(33, 8, 'ok', 'ok', 'ok', 'class5', 'male', 'buddhism,christian,hindu,jain,Muslim', 'means_based', '2019-06-29', 12, '2000', 'ok', 'ok', 'ok', 'ook', 'ok', 'ok', 'Pending', '', 'active');
 
 -- --------------------------------------------------------
 
@@ -156,6 +162,7 @@ CREATE TABLE `signatory` (
   `firstName` varchar(255) NOT NULL,
   `middleName` varchar(255) NOT NULL,
   `lastName` varchar(255) NOT NULL,
+  `organization/university` varchar(255) NOT NULL,
   `position` varchar(255) NOT NULL,
   `contact` varchar(12) NOT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'active'
@@ -165,9 +172,9 @@ CREATE TABLE `signatory` (
 -- Dumping data for table `signatory`
 --
 
-INSERT INTO `signatory` (`sigID`, `upMail`, `password`, `firstName`, `middleName`, `lastName`, `position`, `contact`, `status`) VALUES
-(7, 'rahul.bindrani.poorna@gmail.com', '$2y$10$D151khT07zy3cx7BAgvkUu84zY5icZZ3tAqvsD6V/iXzPXL/.b6CK', '', '', '', '', '', 'active'),
-(8, 'arjunbd7@gmail.com', '$2y$10$Fjlsx3FEEunWm1dfwODvYeFhzNhAoMkaDq6iBHgGLaT62ebnRq4zO', 'Arjun', 'Chandraprakash', 'Bindrani', 'CEO', '', 'active');
+INSERT INTO `signatory` (`sigID`, `upMail`, `password`, `firstName`, `middleName`, `lastName`, `organization/university`, `position`, `contact`, `status`) VALUES
+(7, 'rahul.bindrani.poorna@gmail.com', '$2y$10$D151khT07zy3cx7BAgvkUu84zY5icZZ3tAqvsD6V/iXzPXL/.b6CK', 'Rahul', 'C', 'Bindrani', '', 'Manager', '', 'active'),
+(8, 'arjunbd7@gmail.com', '$2y$10$Fjlsx3FEEunWm1dfwODvYeFhzNhAoMkaDq6iBHgGLaT62ebnRq4zO', 'Arjun', 'Chandraprakash', 'Bindrani', '', 'CEO', '', 'active');
 
 -- --------------------------------------------------------
 
@@ -194,17 +201,19 @@ CREATE TABLE `student` (
   `permRegion` varchar(255) DEFAULT NULL,
   `contactNo` varchar(20) DEFAULT NULL,
   `dept` varchar(255) NOT NULL,
-  `college` varchar(255) NOT NULL
+  `college` varchar(255) NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`studentID`, `upMail`, `password`, `firstName`, `middleName`, `lastName`, `nationality`, `gender`, `birthDate`, `birthPlace`, `presStreetAddr`, `presProvCity`, `presRegion`, `permStreetAddr`, `permProvCity`, `permRegion`, `contactNo`, `dept`, `college`) VALUES
-(43, 'bindrani.rb7@gmail.com', '$2y$10$kaD0yN3fRZu9es6to1nVp.OK.dFE9Wp0peeHiEOVntlGH7EjKCi/i', 'Rahul', 'Chandraprakash', 'Bindrani', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', ''),
-(44, 'dishantd999@gmail.com', '$2y$10$fvzm.tlEs2VAqCph0Sr3TuQnp.2PjPW2LUYtxBdHdkhz4C7/FRuWu', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', ''),
-(45, 'rahulbindrani123@gmail.com', '$2y$10$RTrzzwxxBQU3LP5M4HmlHuYqSFWUhJpOiQNiwG3NNGabBQyxQ2cqm', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '');
+INSERT INTO `student` (`studentID`, `upMail`, `password`, `firstName`, `middleName`, `lastName`, `nationality`, `gender`, `birthDate`, `birthPlace`, `presStreetAddr`, `presProvCity`, `presRegion`, `permStreetAddr`, `permProvCity`, `permRegion`, `contactNo`, `dept`, `college`, `status`) VALUES
+(43, 'bindrani.rb7@gmail.com', '$2y$10$kaD0yN3fRZu9es6to1nVp.OK.dFE9Wp0peeHiEOVntlGH7EjKCi/i', 'Rahul', 'Chandraprakash', 'Bindrani', 'India', 'Male', '0000-00-00', 'Ahmedabad', '', '', '', '', '', '', '', '', '', 'active'),
+(44, 'dishantd999@gmail.com', '$2y$10$fvzm.tlEs2VAqCph0Sr3TuQnp.2PjPW2LUYtxBdHdkhz4C7/FRuWu', 'Dishant', '', 'doshi', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', 'active'),
+(45, 'rahulbindrani123@gmail.com', '$2y$10$RTrzzwxxBQU3LP5M4HmlHuYqSFWUhJpOiQNiwG3NNGabBQyxQ2cqm', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'active'),
+(47, 'internwithicon@internshala.com', '$2y$10$RTJSf0Mzp8s5rsqNXWhZyuwRoGkoE3/2j3Gw5BRIexlxCQITwKmdq', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'active');
 
 -- --------------------------------------------------------
 
@@ -227,7 +236,8 @@ INSERT INTO `verify_signup` (`upMail`, `action`, `num`) VALUES
 ('dishantd999@gmail.com', 1, 501750),
 ('rahulbindrani123@gmail.com', 1, 327349),
 ('rahul.bindrani.poorna@gmail.com', 1, 421896),
-('arjunbd7@gmail.com', 1, 868906);
+('arjunbd7@gmail.com', 1, 868906),
+('internwithicon@internshala.com', 0, 133692);
 
 --
 -- Indexes for dumped tables
@@ -277,13 +287,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `application`
 --
 ALTER TABLE `application`
-  MODIFY `applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `scholarship`
 --
 ALTER TABLE `scholarship`
-  MODIFY `scholarshipID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `scholarshipID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `signatory`
@@ -295,7 +305,7 @@ ALTER TABLE `signatory`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `studentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `studentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

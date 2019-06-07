@@ -25,7 +25,7 @@
 
       <!-- Header -->
         <header id = "header">
-          <h1 id = "logo"><a href = "#">Scholarships<span> that matter</span></a></h1>
+          <h1 id = "logo"><a href = "javascript:history.back()" class="button special">Back</a></h1>
           <nav id = "nav">
             <ul>
               <li class = ""><a href = "tempAdmin.php">Home</a></li>
@@ -45,7 +45,7 @@
                   <li><a href = "tempScholarship.php?scholarship=Rejected">Rejected Scholarships</a></li>
                 </ul>
               </li><li class = "submenu">
-                <a href = "tempUsersShow.php">Users</a>
+                <a href = "">Users</a>
                 <ul>
                   <li><a href = "tempAdminShow.php">Admin</a></li>
                   <li><a href = "tempSignatoryShow.php">Signatory</a></li>
@@ -153,57 +153,6 @@
                     </table>
 									</section>
 								</div>
-						</section>
-
-					<!-- Two -->
-						<section class="wrapper style1 container special">
-							<div class="row">
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>This is Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>Also Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-								<div class="4u 12u(narrower)">
-
-									<section>
-										<header>
-											<h3>Probably Something</h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
-										<footer>
-											<ul class="buttons">
-												<li><a href="#" class="button small">Learn More</a></li>
-											</ul>
-										</footer>
-									</section>
-
-								</div>
-							</div>
 						</section>
 
 				</article>

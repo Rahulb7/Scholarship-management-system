@@ -74,7 +74,7 @@ foreach ($rows9 as $key => $value)
 
       <!-- Header -->
         <header id = "header" >
-          <h1 id = "logo"><a href = "#">Scholarships <span>that matter</span></a></h1>
+          <h1 id = "logo"><a href = "javascript:history.back()" class="button special">Back</a></h1>
           <nav id = "nav">
             <ul>
               <li ><a href = "tempSigHome.php">Home</a></li>

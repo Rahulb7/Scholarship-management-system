@@ -7,7 +7,7 @@
     try
     {
         $flag = 1;
-        $DBH = new PDO("mysql:host=localhost:3309;dbname=sms", "root", "");
+        $DBH = new PDO("mysql:host=localhost;dbname=sms", "root", "");
 
         $email = $_POST['email'];
         $pass = $_POST['password'];
