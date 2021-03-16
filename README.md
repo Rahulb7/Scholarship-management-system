@@ -1,1 +1,1 @@
-Scholarship Management System Using PHP
+Scholarship Management System where Students can apply for scholarships, Signatory can list their scholarship and validate the student applications, Admin can validate the students, signatory and accept or reject the scholarship using PHP.
